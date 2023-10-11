@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../widgets/app_elevated_button.dart';
 import '../widgets/screen_background.dart';
+import 'authentication/sign_in_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,29 +19,15 @@ class SplashScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 700,),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff8359e3),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(34.0)),
-                ),
+              const SizedBox(
+                height: 700,
+              ),
+              AppElevatedButton(
+                text: 'Get Started',
+                color: const Color(0xff8359e3),
                 onPressed: () {
-
+                  Get.to(const SignInScreen());
                 },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Get Started'),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Icon(Icons.chevron_right)
-                    ],
-                  ),
-                ),
               ),
             ],
           ),
