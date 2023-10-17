@@ -4,26 +4,26 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:unnoti/ui/screens/authentication/sign_up_screen.dart';
-import 'package:unnoti/ui/screens/home_screen.dart';
-import 'package:unnoti/ui/widgets/app_elevated_button.dart';
-import 'package:unnoti/ui/widgets/app_text_form_field.dart';
-import 'package:unnoti/ui/widgets/screen_background.dart';
+import 'package:unnoti/data/services/urls.dart';
+import 'package:unnoti/ui/screens/authentication/sign_in_screen.dart';
 
-import '../../../data/services/urls.dart';
+import '../../widgets/app_elevated_button.dart';
+import '../../widgets/app_text_form_field.dart';
+import '../../widgets/screen_background.dart';
+import 'otp_verification_screen.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key}) : super(key: key);
-
+class SignUPScreen extends StatefulWidget {
+  const SignUPScreen({Key? key}) : super(key: key);
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignUPScreen> createState() => _SignUPScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignUPScreenState extends State<SignUPScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController phoneETController = TextEditingController();
   TextEditingController passwordETController = TextEditingController();
+  TextEditingController confirmpassETController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +48,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         letterSpacing: 2),
                   ),
                   const SizedBox(
-                    height: 200,
+                    height: 150,
                   ),
                   SizedBox(
-                    height: 465,
+                    height: 530,
                     width: double.infinity,
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -66,7 +66,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               height: 10,
                             ),
                             const Text(
-                              'Sign In',
+                              'Sign Up',
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 26,
@@ -98,9 +98,28 @@ class _SignInScreenState extends State<SignInScreen> {
                               controller: passwordETController,
                               validator: (value) {
                                 if (
-                                //(value?.isEmpty ?? true) &&
-                                ((value?.length ?? 0) < 6)) {
+                                    //(value?.isEmpty ?? true) &&
+                                    ((value?.length ?? 0) < 6)) {
                                   return "Enter password more then 6 letter";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            AppTextFormField(
+                              hintText: 'Confirm Password',
+                              color: const Color(0xffF5F5F5),
+                              controller: confirmpassETController,
+                              validator: (value) {
+                                if ((value?.isEmpty ?? true) &&
+                                    ((value?.length ?? 0) < 6)) {
+                                  return "Enter password more then 6 letter";
+                                }
+                                if (passwordETController.text !=
+                                    confirmpassETController.text) {
+                                  return "Password don't match";
                                 }
                                 return null;
                               },
@@ -109,59 +128,59 @@ class _SignInScreenState extends State<SignInScreen> {
                               height: 20,
                             ),
                             AppElevatedButton(
-                              text: 'Log In',
+                              text: 'Create Account',
                               color: const Color(0xFF8359E3),
-                              onPressed: () {
-                                () async {
-                                  if (_formKey.currentState!.validate()) {
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
 
-                                    try {
-                                      final http.Response response = await http.post(Uri.parse(Urls.logInUrl),
-                                          headers: {"Content-Type": "application/json"},
-                                          body: jsonEncode({
-                                            'phone_number':
-                                            '+88${phoneETController.text}',
-                                            'password': passwordETController.text
-                                          }));
+                                  try {
+                                    final http.Response response = await http.post(Uri.parse(Urls.registrationUrl),
+                                        headers: {"Content-Type": "application/json"},
+                                        body: jsonEncode({
+                                          'phone_number':
+                                          '+88${phoneETController.text}',
+                                          'password': passwordETController.text
+                                        }));
 
-                                      // print(response.statusCode);
+                                    // print(response.statusCode);
 
-                                      if (response.statusCode == 200) {
-                                        log(response.body);
-                                        //print(valueMap);
-                                        //  print(valueMap['otp']);
-                                        Get.offAll(const HomeScreen());
+                                    if (response.statusCode == 201) {
+                                      log(response.body);
+                                      Map valueMap = jsonDecode(response.body);
+                                      //print(valueMap);
+                                    //  print(valueMap['otp']);
 
-                                      } else if (response.statusCode == 400) {
-                                        Get.snackbar(
-                                          "Error!",
-                                          "User with this phone number already exists",
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: Colors.red,
-                                          colorText: Colors.white,
-                                          snackStyle: SnackStyle.FLOATING,
+                                      Get.to(OTPVerficationScreen(otp: valueMap['otp'],phoneNumber: '+88${phoneETController.text}',));
 
-                                        );
-                                      }  else {
-                                        log("Something went wrong");
-                                        Get.snackbar(
-                                          "Error!",
-                                          "Registration Failed",
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: Colors.red,
-                                          colorText: Colors.white,
-                                          snackStyle: SnackStyle.FLOATING,
+                                    } else if (response.statusCode == 400) {
+                                      Get.snackbar(
+                                        "Error!",
+                                        "User with this phone number already exists",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red,
+                                        colorText: Colors.white,
+                                        snackStyle: SnackStyle.FLOATING,
 
-                                        );
-                                      }
-                                    } catch (e) {
-                                      log('Error $e');
+                                      );
+                                    }  else {
+                                      log("Something went wrong");
+                                      Get.snackbar(
+                                        "Error!",
+                                        "Registration Failed",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red,
+                                        colorText: Colors.white,
+                                        snackStyle: SnackStyle.FLOATING,
+
+                                      );
                                     }
-
+                                  } catch (e) {
+                                    log('Error $e');
                                   }
 
+                                }
 
-                                };
+
                               },
                             ),
                             const SizedBox(
@@ -171,23 +190,11 @@ class _SignInScreenState extends State<SignInScreen> {
                               color: Colors.grey,
                               thickness: 1,
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Forget Password ?',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w400),
-                                )),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Text(
-                                  'New ?',
+                                  'Already have an account ?',
                                   style: TextStyle(
                                       fontSize: 18,
                                       color: Color(0xff4D4D4D),
@@ -195,10 +202,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Get.to(const SignUPScreen());
+                                    Get.offAll(const SignInScreen());
                                   },
                                   child: const Text(
-                                    'Sign Up',
+                                    'Sign In',
                                     style: TextStyle(
                                         fontSize: 18,
                                         color: Colors.black,
