@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:unnoti/ui/screens/authentication/sign_up_screen.dart';
-import 'package:unnoti/ui/screens/home_screen.dart';
+import 'package:unnoti/ui/screens/profile_screen.dart';
 import 'package:unnoti/ui/widgets/app_elevated_button.dart';
 import 'package:unnoti/ui/widgets/app_text_form_field.dart';
 import 'package:unnoti/ui/widgets/screen_background.dart';
@@ -51,7 +51,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: 200,
                   ),
                   SizedBox(
-                    height: 465,
+                    height: 490,
                     width: double.infinity,
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -111,8 +111,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             AppElevatedButton(
                               text: 'Log In',
                               color: const Color(0xFF8359E3),
-                              onPressed: () {
-                                () async {
+                              onPressed:() async {
                                   if (_formKey.currentState!.validate()) {
 
                                     try {
@@ -124,29 +123,19 @@ class _SignInScreenState extends State<SignInScreen> {
                                             'password': passwordETController.text
                                           }));
 
-                                      // print(response.statusCode);
+                                       //print(response.statusCode);
 
                                       if (response.statusCode == 200) {
                                         log(response.body);
-                                        //print(valueMap);
-                                        //  print(valueMap['otp']);
-                                        Get.offAll(const HomeScreen());
+                                        Map valueMap = jsonDecode(response.body);
 
-                                      } else if (response.statusCode == 400) {
-                                        Get.snackbar(
-                                          "Error!",
-                                          "User with this phone number already exists",
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: Colors.red,
-                                          colorText: Colors.white,
-                                          snackStyle: SnackStyle.FLOATING,
+                                        Get.offAll( ProfileScreen(token: valueMap['token'],));
 
-                                        );
-                                      }  else {
+                                      } else {
                                         log("Something went wrong");
                                         Get.snackbar(
                                           "Error!",
-                                          "Registration Failed",
+                                          "LogIn Failed",
                                           snackPosition: SnackPosition.BOTTOM,
                                           backgroundColor: Colors.red,
                                           colorText: Colors.white,
@@ -160,8 +149,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
                                   }
 
-
-                                };
                               },
                             ),
                             const SizedBox(

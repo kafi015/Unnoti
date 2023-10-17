@@ -19,36 +19,39 @@ class AppTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      readOnly: readOnly ?? false,
-      maxLines: maxLines ?? 1,
-      controller: controller,
-      obscureText: obscureText ?? false,
-      obscuringCharacter: '*',
-      validator: (value) {
-        if (validator != null) {
-          return validator!(value);
-        }
-        return null;
-      },
+    return SizedBox(
+      height: 50,
+      child: TextFormField(
+        readOnly: readOnly ?? false,
+        maxLines: maxLines ?? 1,
+        controller: controller,
+        obscureText: obscureText ?? false,
+        obscuringCharacter: '*',
+        validator: (value) {
+          if (validator != null) {
+            return validator!(value);
+          }
+          return null;
+        },
 
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: const TextStyle(
-          color: Color(0xff454349),
-          fontWeight: FontWeight.w500,
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: const TextStyle(
+            color: Color(0xff454349),
+            fontWeight: FontWeight.w500,
+          ),
+          border: InputBorder.none,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(34.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(34.0),
+          ),
+          filled: true,
+          fillColor: color,
         ),
-        border: InputBorder.none,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(34.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(34.0),
-        ),
-        filled: true,
-        fillColor: color,
       ),
     );
   }

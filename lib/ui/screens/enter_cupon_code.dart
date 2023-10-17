@@ -5,8 +5,19 @@ import 'package:unnoti/ui/widgets/screen_background.dart';
 
 import '../widgets/app_text_form_field.dart';
 
-class EnterCuponCode extends StatelessWidget {
+class EnterCuponCode extends StatefulWidget {
   const EnterCuponCode({Key? key}) : super(key: key);
+
+  @override
+  State<EnterCuponCode> createState() => _EnterCuponCodeState();
+}
+
+class _EnterCuponCodeState extends State<EnterCuponCode> {
+
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController cuponETController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,21 +87,35 @@ class EnterCuponCode extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16.0, vertical: 20.0),
-                      child: Column(
-                        children: [
-                          AppTextFormField(
-                            hintText: 'Enter the Cupon code',
-                            color: Colors.white,
-                            controller: TextEditingController(),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          AppElevatedButton(
-                              text: 'Submit',
-                              color: const Color(0xff8359E3),
-                              onPressed: () {})
-                        ],
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            AppTextFormField(
+                              hintText: 'Enter the Cupon code',
+                              color: Colors.white,
+                              controller: cuponETController,
+                              validator: (value){
+                                if(value?.isEmpty ?? true)
+                                  {
+                                    return "Enter a cupon code for submit";
+                                  }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            AppElevatedButton(
+                                text: 'Submit',
+                                color: const Color(0xff8359E3),
+                                onPressed: () {
+                                  if(_formKey.currentState!.validate()){
+
+                                  }
+                                }),
+                          ],
+                        ),
                       ),
                     ),
                   ),

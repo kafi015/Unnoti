@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unnoti/ui/screens/authentication/sign_in_screen.dart';
 import 'package:unnoti/ui/widgets/app_elevated_button.dart';
 import 'package:unnoti/ui/widgets/screen_background.dart';
 
@@ -7,7 +8,9 @@ import '../widgets/activity_card.dart';
 import 'enter_cupon_code.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, required this.token}) : super(key: key);
+
+  final String token;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,9 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.black,
                         size: 40,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(const SignInScreen());
+                      },
                     ),
                     elevation: 0,
                     backgroundColor: Colors.transparent,
