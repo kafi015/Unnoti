@@ -8,5 +8,6 @@ class Urls {
   static String verigyOTPUrl = '${baseUrl}verify-otp/';
   static String logInUrl = '${baseUrl}login/';
   static String profileUrl = '${baseUrl}profile/';
+  static String rechargeUrl = '${baseUrl}recharge/';
   static String profileByIDUrl(int id) => '${baseUrl}profile/$id';
 }

@@ -1,9 +1,14 @@
 
-import 'dart:io';
+import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:unnoti/ui/screens/home_screen.dart';
 
+import '../../data/services/urls.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/app_text_form_field.dart';
 import '../widgets/screen_background.dart';
@@ -31,9 +36,19 @@ class _CreateProfileState extends State<CreateProfile> {
 
   final int id = 0;
 
-  XFile? pickedImage;
-  File? imageFile;
+   XFile? pickedImage;
+  // File? imageFile;
+  // String? base64Image;
 
+  // Future<File> getImageFileFromAssets(String path) async {
+  //   final byteData = await rootBundle.load('assets/$path');
+  //   final file = File('${(await getTemporaryDirectory()).path}/$path');
+  //   await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+  //   return file;
+  // }
+  // Future<List<int>> convertFileToBytes(File file) async {
+  //   return await file.readAsBytes();
+  // }
 
   @override
   void initState() {
@@ -52,120 +67,162 @@ class _CreateProfileState extends State<CreateProfile> {
         widget: Padding(
           padding: EdgeInsets.symmetric(horizontal: width * 0.05),
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: height * 0.08,
-                ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                Center(
-                  child: Stack(
-                    children: [
-                       Container(
-                         height: 150,
-                      width: 200,
-                      color: Colors.blue,
-                      //  child: pickedImage==null? AssetImage('assets/example_profile.png'): FileImage(pickedImage),
-                       // backgroundImage: AssetImage('assets/example_profile.png'),
-                      //  radius: 60,
-                         child: imageFile==null? Image.asset('assets/example_profile.png'): Image.file(imageFile!),
-                      ),
-                      Positioned(
-                        top: 70,
-                        left: 80,
-                        child: InkWell(
-                          onTap: ()  {
-                            pickImage(context);
-                          },
-                          child: const CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/profile_upload_icon.png'),
-                          ),
-                        ),
-                      ),
-                    ],
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: height * 0.08,
                   ),
-                ),
-                SizedBox(
-                  height: height * 0.05,
-                ),
-                SizedBox(
-                  height: height * 0.45,
-                  width: double.infinity,
-                  child: Card(
-                    color: const Color(0xffd8c5df),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.05, vertical: height * 0.03),
-                      child: Column(
-                        children: [
-                          AppTextFormField(
-                            hintText: 'Enter full name',
-                            color: Colors.white,
-                            controller: nameETController,
-                            validator: (value) {
-                              if (value?.isEmpty ?? true) {
-                                return "Enter your full name";
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          AppTextFormField(
-                            hintText: 'Phone Number',
-                            readOnly: true,
-                            color: Colors.white,
-                            controller: phoneETController,
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          AppTextFormField(
-                            hintText: 'Address',
-                            color: Colors.white,
-                            controller: addressETController,
-                            validator: (value) {
-                              if (value?.isEmpty ?? true) {
-                                return "Enter your address";
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          AppTextFormField(
-                            hintText: 'NID number',
-                            color: Colors.white,
-                            controller: nidETController,
-                            validator: (value) {
-                              if (value?.isEmpty ?? true) {
-                                return "Enter your NID number";
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          AppElevatedButton(
-                            text: 'Create Profile',
-                            color: const Color(0xff8359E3),
-                            onPressed: () {
-                             // Get.to(MyWidget());
-                            },
-                          ),
-                        ],
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  const Center(
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage('assets/example_profile.png'),
+                          radius: 60,
+                        ),
+                        // Positioned(
+                        //   top: 70,
+                        //   left: 80,
+                        //   child: InkWell(
+                        //     onTap: ()  {
+                        //    //   pickImage(context);
+                        //     },
+                        //     child: const CircleAvatar(
+                        //       backgroundImage:
+                        //           AssetImage('assets/profile_upload_icon.png'),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.05,
+                  ),
+                  SizedBox(
+                    height: height * 0.45,
+                    width: double.infinity,
+                    child: Card(
+                      color: const Color(0xffd8c5df),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.05, vertical: height * 0.03),
+                        child: Column(
+                          children: [
+                            AppTextFormField(
+                              hintText: 'Enter full name',
+                              color: Colors.white,
+                              controller: nameETController,
+                              validator: (value) {
+                                if (value?.isEmpty ?? true) {
+                                  return "Enter your full name";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            AppTextFormField(
+                              hintText: 'Phone Number',
+                              readOnly: true,
+                              color: Colors.white,
+                              controller: phoneETController,
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            AppTextFormField(
+                              hintText: 'Address',
+                              color: Colors.white,
+                              controller: addressETController,
+                              validator: (value) {
+                                if (value?.isEmpty ?? true) {
+                                  return "Enter your address";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            AppTextFormField(
+                              hintText: 'NID number',
+                              color: Colors.white,
+                              controller: nidETController,
+                              validator: (value) {
+                                if (value?.isEmpty ?? true) {
+                                  return "Enter your NID number";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            AppElevatedButton(
+                              text: 'Create Profile',
+                              color: const Color(0xff8359E3),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+
+
+                                  try {
+
+                                    final http.Response response = await http.post(Uri.parse(Urls.profileUrl),
+                                        headers: {"Content-Type": "application/json", "Authorization" : "Token ${widget.token}",},
+                                        body: jsonEncode({
+                                          'name': nameETController.text,
+                                          'nid': nidETController.text,
+                                          'address': addressETController.text,
+                                         // 'image' : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ficonscout.com%2Ffree-icon%2Fperson-1780868&psig=AOvVaw3xih8gOuD2HSo6XIUN4vrH&ust=1697729803975000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJiW-sD2_4EDFQAAAAAdAAAAABAJ'
+                                        }));
+
+
+                                     log(response.statusCode.toString());
+                                    log(response.body);
+                                    if (response.statusCode == 200) {
+                                      log(response.body);
+                                      Map valueMap = jsonDecode(response.body);
+                                      //print(valueMap);
+                                      //  print(valueMap['otp']);
+                                      Get.offAll(HomeScreen(token: widget.token, phoneNumber: widget.phoneNumber, profileID: valueMap['id']));
+
+                                    }
+                                    else {
+                                      log(response.statusCode.toString());
+                                      log("Something went wrong");
+                                      Get.snackbar(
+                                        "Error!",
+                                        "Failed Create profile",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red,
+                                        colorText: Colors.white,
+                                        snackStyle: SnackStyle.FLOATING,
+
+                                      );
+                                    }
+                                  } catch (e) {
+                                    log('Error $e');
+                                  }
+
+                                }
+
+
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -187,6 +244,8 @@ class _CreateProfileState extends State<CreateProfile> {
                   if (pickedImage != null) {
                     setState(() {});
                   }
+
+
                   Navigator.pop(context);
                 },
                 leading: const Icon(Icons.camera),
@@ -198,7 +257,6 @@ class _CreateProfileState extends State<CreateProfile> {
                       .pickImage(source: ImageSource.gallery);
 
                   if (pickedImage != null) {
-                    imageFile = File(pickedImage!.path);
                     setState(() {});
                   }
                   Navigator.pop(context);

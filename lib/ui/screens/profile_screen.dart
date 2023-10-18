@@ -23,18 +23,23 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController nameETController = TextEditingController();
   TextEditingController phoneETController = TextEditingController();
   TextEditingController addressETController = TextEditingController();
   TextEditingController nidETController = TextEditingController();
   TextEditingController passwordETController = TextEditingController();
-  String? point;
+  int? point;
   String? imageUrl;
+
+  bool inProgress = false;
 
   Future<void> getProfileData(int id)
   async {
+    inProgress = true;
+    setState(() {});
+
     final http.Response response = await http.get(
       Uri.parse(Urls.profileByIDUrl(id)),
       headers: {"Content-Type": "application/json", 'Authorization': 'Token ${widget.token}'},
@@ -48,25 +53,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
         addressETController.text = valueMap['address'];
         nidETController.text = valueMap['nid'];
         point = valueMap['points'];
-        imageUrl = valueMap['image'];
-
+       // imageUrl = valueMap['image'];
+        inProgress = false;
+        setState(() {});
       }
+
   }
 
   @override
   void initState() {
     super.initState();
-    getProfileData(1);
+    getProfileData(widget.profileID);
 
   }
 
   @override
   Widget build(BuildContext context) {
-    getProfileData(1);
     return Scaffold(
       body: ScreenBackground(
         backgroundImage: 'assets/home_background.png',
-        widget: Padding(
+        widget: inProgress? const Center(child: CircularProgressIndicator(),):Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: SingleChildScrollView(
             child: Column(
@@ -99,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             const SizedBox(width: 2,),
                              Text(
                               nameETController.text,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 22,
                               ),
@@ -111,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                              Text(
                               '${point ?? 0} Points',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
                               ),
@@ -129,10 +135,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                 Center(
+                 const Center(
                     child: CircleAvatar(
                       radius: 60,
-                     backgroundImage: NetworkImage(imageUrl ?? ''),
                     ),
 
                 ),
@@ -222,22 +227,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               text: 'Update',
                               color: const Color(0xff8359E3),
                             onPressed:() async {
-                              if (_formKey.currentState!.validate()) {
 
+                            //  if (_formKey.currentState!.validate()) {
                                 try {
-                                  final http.Response response = await http.post(Uri.parse(Urls.profileUrl),
-                                      headers: {"Content-Type": "application/json"},
+                                  final http.Response response = await http.put(Uri.parse(Urls.profileByIDUrl(widget.profileID)),
+                                      headers: {
+                                        "Content-Type": "application/json",
+                                        'Authorization': 'Token ${widget.token}'
+                                      },
                                       body: jsonEncode({
-                                        'phone_number':
-                                        '+88${phoneETController.text}',
-                                        'password': passwordETController.text
+                                        "name": nameETController.text,
+                                        "nid": nidETController.text,
+                                        "address": addressETController.text
+
                                       }));
 
                                   //print(response.statusCode);
 
                                   if (response.statusCode == 200) {
                                     log(response.body);
-                                    Map valueMap = jsonDecode(response.body);
+                                    Get.snackbar(
+                                      "",
+                                      "Profile Update Successfully!",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.green,
+                                      colorText: Colors.white,
+                                      snackStyle: SnackStyle.FLOATING,
+
+                                    );
+
+                                    getProfileData(widget.profileID);
+
+                               //     Map valueMap = jsonDecode(response.body);
 
 
 
@@ -247,7 +268,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     log("Something went wrong");
                                     Get.snackbar(
                                       "Error!",
-                                      "LogIn Failed",
+                                      "Profile Update Failed",
                                       snackPosition: SnackPosition.BOTTOM,
                                       backgroundColor: Colors.red,
                                       colorText: Colors.white,
@@ -259,7 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   log('Error $e');
                                 }
 
-                              }
+
 
                             },
                               ),

@@ -146,14 +146,17 @@ class _SignInScreenState extends State<SignInScreen> {
                                           },
                                         );
                                         log(res.body);
-                                        Map vMap = jsonDecode(response.body);
+                                        Map vMap = jsonDecode(res.body);
 
                                         if (res.statusCode == 200) {
+
+                                          //print(vMap['id']);
                                           Get.offAll(HomeScreen(
                                             token: valueMap['token'],
                                             phoneNumber:
                                                 '+88${phoneETController.text}', profileID: vMap['id'],
                                           ));
+                                          log('aksdjfnaskdjnflaksdnaksjd hekkki');
                                         } else if (res.statusCode == 404) {
                                           Get.offAll(CreateProfile(
                                             token: valueMap['token'],
@@ -172,7 +175,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           );
                                         }
                                       } catch (e) {
-                                        log('Error $e');
+                                        log('Error profile check: \n $e');
                                       }
                                     } else {
                                       log("Something went wrong");

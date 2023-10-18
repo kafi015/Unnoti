@@ -8,9 +8,14 @@ void main()
   runApp(const Unnoti());
 }
 
-class Unnoti extends StatelessWidget {
+class Unnoti extends StatefulWidget {
   const Unnoti({Key? key}) : super(key: key);
+  //static GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
+  @override
+  State<Unnoti> createState() => _UnnotiState();
+}
 
+class _UnnotiState extends State<Unnoti> {
   @override
   Widget build(BuildContext context) {
     return const GetMaterialApp(
