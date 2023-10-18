@@ -38,6 +38,9 @@ dependencies:
   get: ^4.6.6
   http: ^0.13.5
   image_picker: ^0.8.9
+  internet_connection_checker: ^0.0.1+4
+  connectivity_plus: ^2.3.5
+  shared_preferences: ^2.1.2
 
 
 dev_dependencies:

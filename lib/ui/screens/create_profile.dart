@@ -154,6 +154,7 @@ class _CreateProfileState extends State<CreateProfile> {
                             AppTextFormField(
                               hintText: 'NID number',
                               color: Colors.white,
+                              keyBoardType: TextInputType.number,
                               controller: nidETController,
                               validator: (value) {
                                 if (value?.isEmpty ?? true) {

@@ -33,11 +33,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int? point;
   String? imageUrl;
 
+  bool inProgressProfile = false;
   bool inProgress = false;
+
 
   Future<void> getProfileData(int id)
   async {
-    inProgress = true;
+    inProgressProfile = true;
     setState(() {});
 
     final http.Response response = await http.get(
@@ -54,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         nidETController.text = valueMap['nid'];
         point = valueMap['points'];
        // imageUrl = valueMap['image'];
-        inProgress = false;
+        inProgressProfile = false;
         setState(() {});
       }
 
@@ -72,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: ScreenBackground(
         backgroundImage: 'assets/home_background.png',
-        widget: inProgress? const Center(child: CircularProgressIndicator(),):Padding(
+        widget: inProgressProfile? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: SingleChildScrollView(
             child: Column(
@@ -107,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               nameETController.text,
                               style: const TextStyle(
                                 color: Colors.black,
-                                fontSize: 22,
+                                fontSize: 18,
                               ),
                             ),
                           ],
@@ -196,6 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             hintText: 'NID number',
                             color: Colors.white,
                             controller: nidETController,
+                            keyBoardType: TextInputType.number,
                             validator: (value) {
                               if (value?.isEmpty ?? true) {
                                 return "Enter your NID number";
@@ -204,32 +207,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 60,
                           ),
-                          AppTextFormField(
-                            hintText: 'Password',
-                            color: Colors.white,
-                            controller: passwordETController,
-                            validator: (value) {
-                              if (
-                              //(value?.isEmpty ?? true) &&
-                              ((value?.length ?? 0) < 6)) {
-                                return "Enter password more then 6 letter";
-                              }
-                              return null;
-                            },
-                          ),
+                          // AppTextFormField(
+                          //   hintText: 'Password',
+                          //   color: Colors.white,
+                          //   controller: passwordETController,
+                          //   validator: (value) {
+                          //     if (
+                          //     //(value?.isEmpty ?? true) &&
+                          //     ((value?.length ?? 0) < 6)) {
+                          //       return "Enter password more then 6 letter";
+                          //     }
+                          //     return null;
+                          //   },
+                          // ),
                           const SizedBox(
                             height: 20,
                           ),
 
-                          AppElevatedButton(
+                          inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):AppElevatedButton(
                               text: 'Update',
                               color: const Color(0xff8359E3),
                             onPressed:() async {
 
                             //  if (_formKey.currentState!.validate()) {
                                 try {
+                                  inProgress = true;
+                                  setState(() {});
+
                                   final http.Response response = await http.put(Uri.parse(Urls.profileByIDUrl(widget.profileID)),
                                       headers: {
                                         "Content-Type": "application/json",
@@ -247,7 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   if (response.statusCode == 200) {
                                     log(response.body);
                                     Get.snackbar(
-                                      "",
+                                      "Message",
                                       "Profile Update Successfully!",
                                       snackPosition: SnackPosition.BOTTOM,
                                       backgroundColor: Colors.green,
@@ -276,6 +282,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                     );
                                   }
+                                  inProgress = false;
+                                  setState(() {});
+
                                 } catch (e) {
                                   log('Error $e');
                                 }

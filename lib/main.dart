@@ -10,7 +10,7 @@ void main()
 
 class Unnoti extends StatefulWidget {
   const Unnoti({Key? key}) : super(key: key);
-  //static GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
   @override
   State<Unnoti> createState() => _UnnotiState();
 }

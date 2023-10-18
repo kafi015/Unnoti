@@ -55,7 +55,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                     height: height*0.15,
                   ),
                   SizedBox(
-                    height: height*0.53,
+                    height: 450,
                     width: double.infinity,
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -81,6 +81,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                             ),
                             AppTextFormField(
                               hintText: 'Enter Phone number',
+                              keyBoardType: TextInputType.number,
                               color: const Color(0xffF5F5F5),
                               controller: phoneETController,
                               validator: (value) {

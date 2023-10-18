@@ -5,7 +5,7 @@ class AppTextFormField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.color,
-    required this.controller, this.validator, this.obscureText, this.maxLines, this.readOnly,
+    required this.controller, this.validator, this.obscureText, this.maxLines, this.readOnly, this.keyBoardType,
   });
 
   final String hintText;
@@ -16,6 +16,7 @@ class AppTextFormField extends StatelessWidget {
   final bool? obscureText;
   final int? maxLines;
   final bool? readOnly;
+  final TextInputType? keyBoardType;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class AppTextFormField extends StatelessWidget {
         controller: controller,
         obscureText: obscureText ?? false,
         obscuringCharacter: '*',
+        keyboardType: keyBoardType,
         validator: (value) {
           if (validator != null) {
             return validator!(value);

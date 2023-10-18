@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:unnoti/data/auth_utils.dart';
 import 'package:unnoti/ui/screens/authentication/sign_up_screen.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
 import 'package:unnoti/ui/widgets/app_elevated_button.dart';
@@ -56,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: height * 0.2,
                   ),
                   SizedBox(
-                    height: height * 0.5,
+                    height: 430,
                     width: double.infinity,
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -84,6 +85,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               hintText: 'Enter Phone number',
                               color: const Color(0xffF5F5F5),
                               controller: phoneETController,
+                              keyBoardType: TextInputType.number,
                               validator: (value) {
                                 if (value?.isEmpty ?? true) {
                                   return "Enter your mobile number";
@@ -152,7 +154,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                         );
                                         log(res.body);
                                         Map vMap = jsonDecode(res.body);
-
+                                        AuthUtils.saveUserData(valueMap['token'],'+88${phoneETController.text}',vMap['id'].toString());
                                         if (res.statusCode == 200) {
 
                                           //print(vMap['id']);

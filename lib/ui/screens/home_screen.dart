@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: ScreenBackground(
         backgroundImage: 'assets/home_background.png',
         widget: SafeArea(
-          child: inProgress? const Center(child: CircularProgressIndicator(),):Padding(
+          child: inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: SingleChildScrollView(
               child: Column(
@@ -344,18 +344,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         ActivityCard(
-                          image: 'assets/recharge_card_icon.png',
-                          title: 'Recharge Card',
+                          image: 'assets/app_icon.png',
+                          title: '......',
                           onTap: () {},
                         ),
                         ActivityCard(
-                          image: 'assets/recharge_card_icon.png',
-                          title: 'Recharge Card',
+                          image: 'assets/app_icon.png',
+                          title: '......',
                           onTap: () {},
                         ),
                         ActivityCard(
-                          image: 'assets/recharge_card_icon.png',
-                          title: 'Recharge Card',
+                          image: 'assets/app_icon.png',
+                          title: '......',
                           onTap: () {},
                         ),
                       ],
@@ -431,6 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+                 const SizedBox(height: 20,),
                 ],
               ),
             ),
