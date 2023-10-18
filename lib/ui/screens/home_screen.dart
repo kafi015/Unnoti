@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unnoti/ui/screens/authentication/sign_in_screen.dart';
+import 'package:unnoti/ui/screens/profile_screen.dart';
 import 'package:unnoti/ui/widgets/app_elevated_button.dart';
 import 'package:unnoti/ui/widgets/screen_background.dart';
 
 import '../widgets/activity_card.dart';
 import 'enter_cupon_code.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key, required this.token}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key, required this.token, required this.phoneNumber, required this.profileID}) : super(key: key);
 
   final String token;
+  final String phoneNumber;
+  final int profileID;
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +84,11 @@ class HomeScreen extends StatelessWidget {
                       const SizedBox(
                         width: 8,
                       ),
-                      Image.asset('assets/example_profile.png'),
+                      InkWell(
+                          onTap: () {
+                            Get.to(ProfileScreen(token: widget.token, phoneNumber: widget.phoneNumber,profileID: widget.profileID,));
+                          },
+                          child: Image.asset('assets/example_profile.png')),
                       const SizedBox(
                         width: 8,
                       ),
@@ -211,27 +223,31 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                   SingleChildScrollView(
+                  SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
                         ActivityCard(
                           image: 'assets/recharge_card_icon.png',
-                          title: 'Recharge Card', onTap: () {
+                          title: 'Recharge Card',
+                          onTap: () {
                             Get.to(const EnterCuponCode());
-                        },
+                          },
                         ),
                         ActivityCard(
                           image: 'assets/recharge_card_icon.png',
-                          title: 'Recharge Card', onTap: () {  },
+                          title: 'Recharge Card',
+                          onTap: () {},
                         ),
                         ActivityCard(
                           image: 'assets/recharge_card_icon.png',
-                          title: 'Recharge Card', onTap: () {  },
+                          title: 'Recharge Card',
+                          onTap: () {},
                         ),
                         ActivityCard(
                           image: 'assets/recharge_card_icon.png',
-                          title: 'Recharge Card', onTap: () {  },
+                          title: 'Recharge Card',
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -262,8 +278,7 @@ class HomeScreen extends StatelessWidget {
                     width: double.infinity,
                     child: Card(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(34.0)
-                      ),
+                          borderRadius: BorderRadius.circular(34.0)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -273,8 +288,6 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-
-
                   ),
                   const SizedBox(
                     height: 10,

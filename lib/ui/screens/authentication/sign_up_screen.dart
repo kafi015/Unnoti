@@ -27,18 +27,20 @@ class _SignUPScreenState extends State<SignUPScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: ScreenBackground(
         backgroundImage: 'assets/authentication_background.png',
         widget: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding:  EdgeInsets.symmetric(horizontal: width*0.05),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 100,
+                   SizedBox(
+                    height: height*0.1,
                   ),
                   const Text(
                     'Unnoti',
@@ -47,23 +49,23 @@ class _SignUPScreenState extends State<SignUPScreen> {
                         fontSize: 28,
                         letterSpacing: 2),
                   ),
-                  const SizedBox(
-                    height: 150,
+                   SizedBox(
+                    height: height*0.15,
                   ),
                   SizedBox(
-                    height: 530,
+                    height: height*0.53,
                     width: double.infinity,
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(34.0),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 20),
+                        padding:  EdgeInsets.symmetric(
+                            horizontal: width*0.05, vertical: height*0.02),
                         child: Column(
                           children: [
-                            const SizedBox(
-                              height: 10,
+                             SizedBox(
+                              height: height*0.01,
                             ),
                             const Text(
                               'Sign Up',
@@ -72,8 +74,8 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                   fontSize: 26,
                                   letterSpacing: 2),
                             ),
-                            const SizedBox(
-                              height: 30,
+                             SizedBox(
+                              height: height*0.03,
                             ),
                             AppTextFormField(
                               hintText: 'Enter Phone number',
@@ -89,8 +91,8 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                 return null;
                               },
                             ),
-                            const SizedBox(
-                              height: 15,
+                             SizedBox(
+                              height: height*0.015,
                             ),
                             AppTextFormField(
                               hintText: 'Enter Password',
@@ -105,8 +107,8 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                 return null;
                               },
                             ),
-                            const SizedBox(
-                              height: 15,
+                             SizedBox(
+                              height: height*0.015,
                             ),
                             AppTextFormField(
                               hintText: 'Confirm Password',
@@ -124,8 +126,8 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                 return null;
                               },
                             ),
-                            const SizedBox(
-                              height: 20,
+                             SizedBox(
+                              height: height*0.02,
                             ),
                             AppElevatedButton(
                               text: 'Create Account',

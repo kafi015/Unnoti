@@ -12,8 +12,10 @@ import '../widgets/app_text_form_field.dart';
 import '../widgets/screen_background.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key, required this.token}) : super(key: key);
+  const ProfileScreen({Key? key, required this.token, required this.phoneNumber,required this.profileID}) : super(key: key);
   final String token;
+  final String phoneNumber;
+  final int profileID;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -28,10 +30,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController addressETController = TextEditingController();
   TextEditingController nidETController = TextEditingController();
   TextEditingController passwordETController = TextEditingController();
+  String? point;
+  String? imageUrl;
 
+  Future<void> getProfileData(int id)
+  async {
+    final http.Response response = await http.get(
+      Uri.parse(Urls.profileByIDUrl(id)),
+      headers: {"Content-Type": "application/json", 'Authorization': 'Token ${widget.token}'},
+    );
+    if(response.statusCode == 200)
+      {
+        Map valueMap = jsonDecode(response.body);
+
+        nameETController.text = valueMap['name'];
+        phoneETController.text = widget.phoneNumber;
+        addressETController.text = valueMap['address'];
+        nidETController.text = valueMap['nid'];
+        point = valueMap['points'];
+        imageUrl = valueMap['image'];
+
+      }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getProfileData(1);
+
+  }
 
   @override
   Widget build(BuildContext context) {
+    getProfileData(1);
     return Scaffold(
       body: ScreenBackground(
         backgroundImage: 'assets/home_background.png',
@@ -48,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          Get.to(HomeScreen(token: widget.token));
+                          Get.to(HomeScreen(token: widget.token, phoneNumber: widget.phoneNumber, profileID: widget.profileID));
                         },
                         child: const Text(
                           'Cancel',
@@ -66,8 +97,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             Image.asset('assets/profile_star.png'),
                             const SizedBox(width: 2,),
-                            const Text(
-                              'Forhad Uddin Ahmed',
+                             Text(
+                              nameETController.text,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 22,
@@ -78,8 +109,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Text(
-                              '100 Points',
+                             Text(
+                              '${point ?? 0} Points',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -98,10 +129,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Center(
+                 Center(
                     child: CircleAvatar(
                       radius: 60,
-                     backgroundImage: AssetImage('assets/example_profile.png'),
+                     backgroundImage: NetworkImage(imageUrl ?? ''),
                     ),
 
                 ),
@@ -210,7 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
 
-                                    Get.offAll( ProfileScreen(token: valueMap['token'],));
+                                   // Get.offAll( ProfileScreen(token: valueMap['token'], phoneNumber: '',));
 
                                   } else {
                                     log("Something went wrong");
