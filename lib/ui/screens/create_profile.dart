@@ -34,7 +34,7 @@ class _CreateProfileState extends State<CreateProfile> {
   TextEditingController nidETController = TextEditingController();
   TextEditingController passwordETController = TextEditingController();
 
-  final int id = 0;
+  bool inProgress = false;
 
    XFile? pickedImage;
   // File? imageFile;
@@ -165,7 +165,7 @@ class _CreateProfileState extends State<CreateProfile> {
                             SizedBox(
                               height: height * 0.02,
                             ),
-                            AppElevatedButton(
+                            inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):AppElevatedButton(
                               text: 'Create Profile',
                               color: const Color(0xff8359E3),
                               onPressed: () async {
@@ -173,6 +173,8 @@ class _CreateProfileState extends State<CreateProfile> {
 
 
                                   try {
+                                    inProgress = true;
+                                    setState(() {});
 
                                     final http.Response response = await http.post(Uri.parse(Urls.profileUrl),
                                         headers: {"Content-Type": "application/json", "Authorization" : "Token ${widget.token}",},
@@ -207,6 +209,8 @@ class _CreateProfileState extends State<CreateProfile> {
 
                                       );
                                     }
+                                    inProgress = false;
+                                    setState(() {});
                                   } catch (e) {
                                     log('Error $e');
                                   }

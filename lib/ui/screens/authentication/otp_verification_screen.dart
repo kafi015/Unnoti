@@ -27,6 +27,8 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
 
   TextEditingController otpETController = TextEditingController();
 
+  bool inProgress = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,13 +95,16 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                            AppElevatedButton(
+                            inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):AppElevatedButton(
                               text: 'Confirm',
                               color: const Color(0xFF8359E3),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
 
                                   try {
+                                    inProgress = true;
+                                    setState(() {});
+
                                     final http.Response response = await http.post(Uri.parse(Urls.verigyOTPUrl),
                                         headers: {"Content-Type": "application/json"},
                                         body: jsonEncode({
@@ -126,6 +131,8 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
 
                                       );
                                     }
+                                    inProgress = false;
+                                    setState(() {});
                                   } catch (e) {
                                     log('Error $e');
                                   }

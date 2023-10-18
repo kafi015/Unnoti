@@ -25,6 +25,8 @@ class _SignUPScreenState extends State<SignUPScreen> {
   TextEditingController passwordETController = TextEditingController();
   TextEditingController confirmpassETController = TextEditingController();
 
+  bool inProgress = false;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -129,13 +131,16 @@ class _SignUPScreenState extends State<SignUPScreen> {
                              SizedBox(
                               height: height*0.02,
                             ),
-                            AppElevatedButton(
+                            inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):AppElevatedButton(
                               text: 'Create Account',
                               color: const Color(0xFF8359E3),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
 
                                   try {
+                                    inProgress = true;
+                                    setState(() {});
+
                                     final http.Response response = await http.post(Uri.parse(Urls.registrationUrl),
                                         headers: {"Content-Type": "application/json"},
                                         body: jsonEncode({
@@ -176,6 +181,8 @@ class _SignUPScreenState extends State<SignUPScreen> {
 
                                       );
                                     }
+                                    inProgress = false;
+                                    setState(() {});
                                   } catch (e) {
                                     log('Error $e');
                                   }

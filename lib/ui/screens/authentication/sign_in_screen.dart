@@ -26,6 +26,8 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController phoneETController = TextEditingController();
   TextEditingController passwordETController = TextEditingController();
 
+  bool inProgress = false;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -111,12 +113,15 @@ class _SignInScreenState extends State<SignInScreen> {
                             SizedBox(
                               height: height * 0.02,
                             ),
-                            AppElevatedButton(
+                            inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):AppElevatedButton(
                               text: 'Log In',
                               color: const Color(0xFF8359E3),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   try {
+                                    inProgress = true;
+                                    setState(() {});
+
                                     final http.Response response = await http //for login check
                                         .post(Uri.parse(Urls.logInUrl),
                                             headers: {
@@ -188,6 +193,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                         snackStyle: SnackStyle.FLOATING,
                                       );
                                     }
+                                    inProgress = false;
+                                    setState(() {});
+
                                   } catch (e) {
                                     log('Error $e');
                                   }
