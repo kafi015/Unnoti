@@ -69,9 +69,9 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                             Text(
-                              'OTP\n${widget.otp}',
-                              style: const TextStyle(
+                             const Text(
+                              'OTP',
+                              style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 26,
                                   letterSpacing: 2),

@@ -156,6 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           horizontal: 16.0, vertical: 20.0),
                       child: Column(
                         children: [
+                          const SizedBox(height: 10,),
                           AppTextFormField(
                             hintText: 'Enter full name',
                             color: Colors.white,

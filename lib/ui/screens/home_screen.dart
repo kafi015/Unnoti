@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:unnoti/ui/screens/authentication/sign_in_screen.dart';
+import 'package:unnoti/ui/screens/product_view_screen.dart';
 import 'package:unnoti/ui/screens/profile_screen.dart';
 import 'package:unnoti/ui/widgets/app_elevated_button.dart';
 import 'package:unnoti/ui/widgets/screen_background.dart';
@@ -367,7 +368,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   AppElevatedButton(
                     text: 'Product View',
                     color: const Color(0xff783a9d),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(ProductViewScreen(token: widget.token, phoneNumber: widget.phoneNumber, profileID: widget.profileID));
+                    },
                   ),
                   const SizedBox(
                     height: 10,

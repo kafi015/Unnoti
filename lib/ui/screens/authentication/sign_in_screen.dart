@@ -103,6 +103,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               hintText: 'Enter Password',
                               color: const Color(0xffF5F5F5),
                               controller: passwordETController,
+                              obscureText: true,
                               validator: (value) {
                                 if (
                                     //(value?.isEmpty ?? true) &&

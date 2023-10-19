@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
     getConnectivity();
     super.initState();
 
-    Future.delayed(const Duration(seconds: 2))
+    Future.delayed(const Duration(seconds: 1))
         .then((value) => {
           checkUserAuthState()
         });
@@ -91,7 +91,9 @@ class _SplashScreenState extends State<SplashScreen> {
                SizedBox(
                 height: height *0.7,
               ),
-              inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):AppElevatedButton(
+             // inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):
+
+              AppElevatedButton(
                 text: 'Get Started',
                 color: const Color(0xff8359e3),
                 onPressed: () {
