@@ -72,6 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //resizeToAvoidBottomInset: false,
       body: ScreenBackground(
         backgroundImage: 'assets/home_background.png',
         widget: inProgressProfile? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):Padding(
@@ -110,6 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
+                                fontWeight: FontWeight.w600
                               ),
                             ),
                           ],
@@ -139,6 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                  const Center(
                     child: CircleAvatar(
+                      backgroundImage: AssetImage('assets/example_profile.png'),
                       radius: 60,
                     ),
 
@@ -147,9 +150,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 20,
                 ),
                 SizedBox(
-                  height: 450,
+                  height: 420,
                   width: double.infinity,
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(34.0),
+                    ),
                     color: const Color(0xffd8c5df),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -208,7 +214,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                           ),
                           const SizedBox(
-                            height: 60,
+                            height: 30,
                           ),
                           // AppTextFormField(
                           //   hintText: 'Password',
@@ -223,9 +229,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           //     return null;
                           //   },
                           // ),
-                          const SizedBox(
-                            height: 20,
-                          ),
 
                           inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):AppElevatedButton(
                               text: 'Update',

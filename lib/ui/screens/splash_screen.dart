@@ -31,7 +31,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     getConnectivity();
     super.initState();
-
     Future.delayed(const Duration(seconds: 1))
         .then((value) => {
           checkUserAuthState()

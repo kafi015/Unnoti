@@ -29,11 +29,14 @@ class _SignInScreenState extends State<SignInScreen> {
 
   bool inProgress = false;
 
+  bool _passVisibility = false;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      //resizeToAvoidBottomInset: false,
       body: ScreenBackground(
         backgroundImage: 'assets/authentication_background.png',
         widget: Padding(
@@ -100,10 +103,30 @@ class _SignInScreenState extends State<SignInScreen> {
                               height: height * 0.015,
                             ),
                             AppTextFormField(
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                  onTap: (){
+                                    if(_passVisibility)
+                                      {
+                                        setState(() {
+                                          _passVisibility = false;
+                                        });
+                                      }
+                                    else
+                                      {
+                                        setState(() {
+                                          _passVisibility = true;
+                                        });
+                                      }
+                                  },
+                                  child: _passVisibility?const Icon(Icons.visibility_outlined):const Icon(Icons.visibility_off_outlined),
+                                ),
+                              ),
                               hintText: 'Enter Password',
                               color: const Color(0xffF5F5F5),
                               controller: passwordETController,
-                              obscureText: true,
+                              obscureText: _passVisibility,
                               validator: (value) {
                                 if (
                                     //(value?.isEmpty ?? true) &&
@@ -116,95 +139,114 @@ class _SignInScreenState extends State<SignInScreen> {
                             SizedBox(
                               height: height * 0.02,
                             ),
-                            inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):AppElevatedButton(
-                              text: 'Log In',
-                              color: const Color(0xFF8359E3),
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  try {
-                                    inProgress = true;
-                                    setState(() {});
+                            inProgress
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Color(0xFF8359E3),
+                                    ),
+                                  )
+                                : AppElevatedButton(
+                                    text: 'Log In',
+                                    color: const Color(0xFF8359E3),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        try {
+                                          inProgress = true;
+                                          setState(() {});
 
-                                    final http.Response response = await http //for login check
-                                        .post(Uri.parse(Urls.logInUrl),
-                                            headers: {
-                                              "Content-Type": "application/json"
-                                            },
-                                            body: jsonEncode({
-                                              'phone_number':
+                                          final http.Response response =
+                                              await http //for login check
+                                                  .post(
+                                                      Uri.parse(Urls.logInUrl),
+                                                      headers: {
+                                                        "Content-Type":
+                                                            "application/json"
+                                                      },
+                                                      body: jsonEncode({
+                                                        'phone_number':
+                                                            '+88${phoneETController.text}',
+                                                        'password':
+                                                            passwordETController
+                                                                .text
+                                                      }));
+
+                                          //print(response.statusCode);
+
+                                          if (response.statusCode == 200) {
+                                            log(response.body);
+                                            Map valueMap =
+                                                jsonDecode(response.body);
+
+                                            try {
+                                              final http.Response res =
+                                                  await http.get(
+                                                Uri.parse(Urls.profileUrl),
+                                                //for profile check
+                                                headers: {
+                                                  "Content-Type":
+                                                      "application/json",
+                                                  'Authorization':
+                                                      'Token ${valueMap['token']}'
+                                                },
+                                              );
+                                              log(res.body);
+                                              Map vMap = jsonDecode(res.body);
+                                              AuthUtils.saveUserData(
+                                                  valueMap['token'],
                                                   '+88${phoneETController.text}',
-                                              'password':
-                                                  passwordETController.text
-                                            }));
-
-                                    //print(response.statusCode);
-
-                                    if (response.statusCode == 200) {
-                                      log(response.body);
-                                      Map valueMap = jsonDecode(response.body);
-
-                                      try {
-                                        final http.Response res =
-                                            await http.get(
-                                          Uri.parse(Urls.profileUrl), //for profile check
-                                          headers: {
-                                            "Content-Type": "application/json",
-                                            'Authorization':
-                                                'Token ${valueMap['token']}'
-                                          },
-                                        );
-                                        log(res.body);
-                                        Map vMap = jsonDecode(res.body);
-                                        AuthUtils.saveUserData(valueMap['token'],'+88${phoneETController.text}',vMap['id'].toString());
-                                        if (res.statusCode == 200) {
-
-                                          //print(vMap['id']);
-                                          Get.offAll(HomeScreen(
-                                            token: valueMap['token'],
-                                            phoneNumber:
-                                                '+88${phoneETController.text}', profileID: vMap['id'],
-                                          ));
-                                          log('aksdjfnaskdjnflaksdnaksjd hekkki');
-                                        } else if (res.statusCode == 404) {
-                                          Get.offAll(CreateProfile(
-                                            token: valueMap['token'],
-                                            phoneNumber:
-                                                '+88${phoneETController.text}',
-                                          ));
-                                        } else {
-                                          log("Something went wrong ${res.statusCode}");
-                                          Get.snackbar(
-                                            "Error!",
-                                            "LogIn Failed",
-                                            snackPosition: SnackPosition.BOTTOM,
-                                            backgroundColor: Colors.red,
-                                            colorText: Colors.white,
-                                            snackStyle: SnackStyle.FLOATING,
-                                          );
+                                                  vMap['id'].toString());
+                                              if (res.statusCode == 200) {
+                                                //print(vMap['id']);
+                                                Get.offAll(HomeScreen(
+                                                  token: valueMap['token'],
+                                                  phoneNumber:
+                                                      '+88${phoneETController.text}',
+                                                  profileID: vMap['id'],
+                                                ));
+                                                log('aksdjfnaskdjnflaksdnaksjd hekkki');
+                                              } else if (res.statusCode ==
+                                                  404) {
+                                                Get.offAll(CreateProfile(
+                                                  token: valueMap['token'],
+                                                  phoneNumber:
+                                                      '+88${phoneETController.text}',
+                                                ));
+                                              } else {
+                                                log("Something went wrong ${res.statusCode}");
+                                                Get.snackbar(
+                                                  "Error!",
+                                                  "LogIn Failed",
+                                                  snackPosition:
+                                                      SnackPosition.BOTTOM,
+                                                  backgroundColor: Colors.red,
+                                                  colorText: Colors.white,
+                                                  snackStyle:
+                                                      SnackStyle.FLOATING,
+                                                );
+                                              }
+                                            } catch (e) {
+                                              log('Error profile check: \n $e');
+                                            }
+                                          } else {
+                                            log("Something went wrong");
+                                            Get.snackbar(
+                                              "Error!",
+                                              "LogIn Failed",
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              backgroundColor: Colors.red,
+                                              colorText: Colors.white,
+                                              snackStyle: SnackStyle.FLOATING,
+                                            );
+                                          }
+                                          inProgress = false;
+                                          setState(() {});
+                                        } catch (e) {
+                                          log('Error $e');
                                         }
-                                      } catch (e) {
-                                        log('Error profile check: \n $e');
                                       }
-                                    } else {
-                                      log("Something went wrong");
-                                      Get.snackbar(
-                                        "Error!",
-                                        "LogIn Failed",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red,
-                                        colorText: Colors.white,
-                                        snackStyle: SnackStyle.FLOATING,
-                                      );
-                                    }
-                                    inProgress = false;
-                                    setState(() {});
-
-                                  } catch (e) {
-                                    log('Error $e');
-                                  }
-                                }
-                              },
-                            ),
+                                    },
+                                  ),
                             SizedBox(
                               height: height * 0.02,
                             ),
@@ -220,9 +262,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                 child: const Text(
                                   'Forget Password ?',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 )),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -230,9 +272,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                 const Text(
                                   'New ?',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: Color(0xff4D4D4D),
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 TextButton(
                                   onPressed: () {
@@ -241,9 +283,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                   child: const Text(
                                     'Sign Up',
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         color: Colors.black,
-                                        fontWeight: FontWeight.w400),
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ],

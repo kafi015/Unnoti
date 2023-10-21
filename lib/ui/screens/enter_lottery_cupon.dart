@@ -5,63 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:unnoti/ui/screens/home_screen.dart';
-import 'package:unnoti/ui/widgets/app_elevated_button.dart';
-import 'package:unnoti/ui/widgets/screen_background.dart';
 
 import '../../data/services/urls.dart';
 import '../../main.dart';
+import '../widgets/app_elevated_button.dart';
 import '../widgets/app_text_form_field.dart';
+import '../widgets/screen_background.dart';
 
-class EnterCuponCode extends StatefulWidget {
-  const EnterCuponCode({Key? key, required this.token, required this.phoneNumber, required this.profileID}) : super(key: key);
-
+class EnterLotteryCuponCode extends StatefulWidget {
+  const EnterLotteryCuponCode({Key? key, required this.token, required this.phoneNumber, required this.profileID})
+      : super(key: key);
   final String token;
   final String phoneNumber;
   final int profileID;
 
   @override
-  State<EnterCuponCode> createState() => _EnterCuponCodeState();
+  State<EnterLotteryCuponCode> createState() => _EnterLotteryCuponCodeState();
 }
 
-class _EnterCuponCodeState extends State<EnterCuponCode> {
-
-
+class _EnterLotteryCuponCodeState extends State<EnterLotteryCuponCode> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController cuponETController = TextEditingController();
-
-  Map? profileMap;
-  bool inProgress = false;
   bool inProgressCuponSubmit = false;
-
-  getProfileData(int id)
-  async {
-
-    inProgress = true;
-    setState(() {});
-
-    final http.Response response =
-    await http.get(
-      Uri.parse(Urls.profileByIDUrl(id)), //for profile check
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization':
-        'Token ${widget.token}'
-      },
-    );
-    profileMap = jsonDecode(response.body);
-    inProgress = false;
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getProfileData(widget.profileID);
-
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +35,9 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
      // resizeToAvoidBottomInset: false,
       body: ScreenBackground(
         backgroundImage: 'assets/home_background.png',
-        widget: inProgress? const Center(child: CircularProgressIndicator(),):Padding(
+        widget:
+            //inProgress? const Center(child: CircularProgressIndicator(),):
+            Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: SingleChildScrollView(
             child: Column(
@@ -92,29 +60,32 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                 const SizedBox(
                   height: 50,
                 ),
-                Center(
-                    child: Image.asset(
-                  'assets/jems_icon.png',
-                  height: 80,
-                  width: 50,
-                  fit: BoxFit.fill,
-                )),
+                // Center(
+                //     child: Image.asset(
+                //       'assets/jems_icon.png',
+                //       height: 80,
+                //       width: 50,
+                //       fit: BoxFit.fill,
+                //     )),
                 const SizedBox(
                   height: 30,
                 ),
                 const Center(
                   child: Text(
-                    'Your Current point',
-                    style: TextStyle(fontSize: 22),
+                    'Enter code for participate lottery!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                 Center(
+                const Center(
                   child: Text(
-                    '${profileMap!['points'] ?? 'Unknown'}',
-                    style: const TextStyle(
+                    '',
+                    style: TextStyle(
                       fontSize: 22,
                       color: Color(0xfffd00e4),
                       fontWeight: FontWeight.w500,
@@ -122,14 +93,14 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 80
                 ),
                 SizedBox(
                   height: 250,
                   width: double.infinity,
                   child: Card(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(34.0)
+                      borderRadius: BorderRadius.circular(34.0)
                     ),
                     color: const Color(0xffd8c5df),
                     child: Padding(
@@ -144,11 +115,10 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                               hintText: 'Enter the Cupon code',
                               color: Colors.white,
                               controller: cuponETController,
-                              validator: (value){
-                                if(value?.isEmpty ?? true)
-                                  {
-                                    return "Enter a cupon code for submit";
-                                  }
+                              validator: (value) {
+                                if (value?.isEmpty ?? true) {
+                                  return "Enter a cupon code for submit";
+                                }
                                 return null;
                               },
                             ),
@@ -161,52 +131,44 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                                 color: Color(0xFF8359E3),
                               ),
                             )
-                                : AppElevatedButton(
+                                :AppElevatedButton(
                                 text: 'Submit',
                                 color: const Color(0xff8359E3),
                                 onPressed: () async {
-                                  if(_formKey.currentState!.validate()){
-                                    try{
+
+                                  if (_formKey.currentState!.validate()) {
+                                    try {
                                       inProgressCuponSubmit = true;
                                       setState(() {});
 
                                       final http.Response response = await http
-                                          .post(Uri.parse(Urls.rechargeUrl),
-                                          headers: {
-                                            "Content-Type": "application/json",
-                                            "Authorization" : "Token ${widget.token}",
-                                          },
-                                          body: jsonEncode({
-                                            "dial_code": cuponETController.text
-                                          }));
+                                          .post(Uri.parse(Urls.lotteryUrl),
+                                              headers: {
+                                                "Content-Type":
+                                                    "application/json",
+                                                "Authorization":
+                                                    "Token ${widget.token}",
+                                              },
+                                              body: jsonEncode({
+                                                "gtoken":
+                                                    cuponETController.text
+                                              }));
 
-                                      log(response.statusCode.toString());
                                       log(response.body);
-                                      if(response.statusCode == 200)
-                                        {
-                                          Map valueMap = jsonDecode(response.body);
-                                          showAlertDialog(Unnoti.globalKey.currentContext!,valueMap['message']);
-
-                                          inProgressCuponSubmit = false;
-                                          setState(() {});
-                                        }
-                                      else if(response.statusCode == 400)
-                                      {
-                                        Map valueMap = jsonDecode(response.body);
-                                        showAlertDialog(Unnoti.globalKey.currentContext!,valueMap['message']);
-
-                                        inProgressCuponSubmit = false;
-                                        setState(() {});
+                                      if (response.statusCode == 200) {
+                                        showAlertDialog(
+                                            Unnoti.globalKey.currentContext!, 'Cupon code Submitted Successfully!');
                                       }
-
+                                      else
+                                        {
+                                          showAlertDialog(
+                                              Unnoti.globalKey.currentContext!, 'Submit Failed!');
+                                        }
                                       inProgressCuponSubmit = false;
                                       setState(() {});
-
+                                    } catch (e) {
+                                      log('Error: $e');
                                     }
-                                    catch(e)
-                                  {
-                                    log('Error: $e');
-                                  }
                                   }
                                 }),
                           ],
@@ -222,20 +184,20 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
       ),
     );
   }
-  showAlertDialog(BuildContext context, String msg) {
 
+  showAlertDialog(BuildContext context, String msg) {
     // set up the button
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () {
-        Get.to(HomeScreen(token: widget.token, phoneNumber: widget.phoneNumber, profileID: widget.profileID));
+           Get.to(HomeScreen(token: widget.token, phoneNumber: widget.phoneNumber, profileID: widget.profileID));
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Message"),
-      content:  Text(msg),
+      content: Text(msg),
       actions: [
         okButton,
       ],
@@ -250,5 +212,3 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
     );
   }
 }
-
-

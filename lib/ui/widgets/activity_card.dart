@@ -16,29 +16,34 @@ class ActivityCard extends StatelessWidget {
         height: 130,
         width: 100,
         child: Card(
+          color: const Color(0xffE6E0F4),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0)),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Image.asset(
-                image,
-                scale: 1.5,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff404040),
-                  fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
+            child: Column(
+              children: [
+
+                Expanded(
+                  flex: 8,
+                  child: Image.asset(
+                    image,
+                    scale: 2,
+                  ),
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff404040),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

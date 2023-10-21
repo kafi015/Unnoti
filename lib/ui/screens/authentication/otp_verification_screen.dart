@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:unnoti/main.dart';
 import 'package:unnoti/ui/screens/authentication/sign_in_screen.dart';
 
 import '../../../data/services/urls.dart';
@@ -32,6 +33,7 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //resizeToAvoidBottomInset: false,
       body: ScreenBackground(
         backgroundImage: 'assets/authentication_background.png',
         widget: Padding(
@@ -52,10 +54,10 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                         letterSpacing: 2),
                   ),
                   const SizedBox(
-                    height: 230,
+                    height: 130,
                   ),
                   SizedBox(
-                    height: 400,
+                    height: 330,
                     width: double.infinity,
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -72,7 +74,7 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                              const Text(
                               'OTP',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 26,
                                   letterSpacing: 2),
                             ),
@@ -117,7 +119,7 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
 
                                     if (response.statusCode == 200) {
                                       log(response.body);
-                                      showAlertDialog(context);
+                                      showAlertDialog(Unnoti.globalKey.currentContext!);
                                     }
                                      else {
                                       log("Something went wrong");
@@ -156,9 +158,9 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                                 const Text(
                                   'Don\'t get OTP?',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: Color(0xff4D4D4D),
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 TextButton(
                                   onPressed: () {
@@ -167,9 +169,9 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                                   child: const Text(
                                     'Resent',
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         color: Colors.black,
-                                        fontWeight: FontWeight.w400),
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ],

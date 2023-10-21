@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
 
 import '../../data/services/urls.dart';
+import '../../main.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/app_text_form_field.dart';
 import '../widgets/screen_background.dart';
@@ -251,7 +252,7 @@ class _CreateProfileState extends State<CreateProfile> {
                   }
 
 
-                  Navigator.pop(context);
+                  Navigator.pop(Unnoti.globalKey.currentContext!);
                 },
                 leading: const Icon(Icons.camera),
                 title: const Text('Camera'),
@@ -264,7 +265,7 @@ class _CreateProfileState extends State<CreateProfile> {
                   if (pickedImage != null) {
                     setState(() {});
                   }
-                  Navigator.pop(context);
+                  Navigator.pop(Unnoti.globalKey.currentContext!);
                 },
                 leading: const Icon(Icons.image),
                 title: const Text('Gallery'),

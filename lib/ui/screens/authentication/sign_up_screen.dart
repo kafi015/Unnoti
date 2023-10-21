@@ -32,6 +32,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      //resizeToAvoidBottomInset: false,
       body: ScreenBackground(
         backgroundImage: 'assets/authentication_background.png',
         widget: Padding(
@@ -206,9 +207,9 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                 const Text(
                                   'Already have an account ?',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: Color(0xff4D4D4D),
-                                      fontWeight: FontWeight.w400),
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 TextButton(
                                   onPressed: () {
@@ -217,9 +218,9 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                   child: const Text(
                                     'Sign In',
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         color: Colors.black,
-                                        fontWeight: FontWeight.w400),
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ],

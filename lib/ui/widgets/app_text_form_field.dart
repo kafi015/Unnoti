@@ -5,7 +5,7 @@ class AppTextFormField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.color,
-    required this.controller, this.validator, this.obscureText, this.maxLines, this.readOnly, this.keyBoardType,
+    required this.controller, this.validator, this.obscureText, this.maxLines, this.readOnly, this.keyBoardType, this.suffixIcon,
   });
 
   final String hintText;
@@ -17,6 +17,7 @@ class AppTextFormField extends StatelessWidget {
   final int? maxLines;
   final bool? readOnly;
   final TextInputType? keyBoardType;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class AppTextFormField extends StatelessWidget {
         },
 
         decoration: InputDecoration(
+          suffixIcon: suffixIcon,
           hintText: hintText,
           hintStyle: const TextStyle(
             color: Color(0xff454349),
