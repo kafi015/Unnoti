@@ -29,7 +29,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   bool inProgress = false;
 
-  bool _passVisibility = false;
+  bool _passVisibility = true;
 
   @override
   Widget build(BuildContext context) {

@@ -95,8 +95,8 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                 Center(
                     child: Image.asset(
                   'assets/jems_icon.png',
-                  height: 80,
-                  width: 50,
+                  height: 72,
+                  width: 69,
                   fit: BoxFit.fill,
                 )),
                 const SizedBox(
