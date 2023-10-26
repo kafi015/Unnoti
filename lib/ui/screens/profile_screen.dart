@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:unnoti/data/auth_utils.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
 
 import '../../data/services/urls.dart';
@@ -12,10 +13,7 @@ import '../widgets/app_text_form_field.dart';
 import '../widgets/screen_background.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key, required this.token, required this.phoneNumber,required this.profileID}) : super(key: key);
-  final String token;
-  final String phoneNumber;
-  final int profileID;
+  const ProfileScreen({Key? key,}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -39,19 +37,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> getProfileData(int id)
   async {
+
+
     inProgressProfile = true;
     setState(() {});
 
     final http.Response response = await http.get(
       Uri.parse(Urls.profileByIDUrl(id)),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Token ${widget.token}'},
+      headers: {"Content-Type": "application/json", 'Authorization': 'Token ${AuthUtils.token}'},
     );
     if(response.statusCode == 200)
       {
         Map valueMap = jsonDecode(response.body);
 
         nameETController.text = valueMap['name'];
-        phoneETController.text = widget.phoneNumber;
+        phoneETController.text = AuthUtils.phoneNumber!;
         addressETController.text = valueMap['address'];
         nidETController.text = valueMap['nid'];
         point = valueMap['points'];
@@ -65,7 +65,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    getProfileData(widget.profileID);
+    AuthUtils.getAuthData();
+    getProfileData(AuthUtils.profileID!);
 
   }
 
@@ -240,10 +241,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   inProgress = true;
                                   setState(() {});
 
-                                  final http.Response response = await http.put(Uri.parse(Urls.profileByIDUrl(widget.profileID)),
+                                  final http.Response response = await http.put(Uri.parse(Urls.profileByIDUrl(AuthUtils.profileID!)),
                                       headers: {
                                         "Content-Type": "application/json",
-                                        'Authorization': 'Token ${widget.token}'
+                                        'Authorization': 'Token ${AuthUtils.token}'
                                       },
                                       body: jsonEncode({
                                         "name": nameETController.text,
@@ -266,7 +267,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                     );
 
-                                    getProfileData(widget.profileID);
+                                    getProfileData(AuthUtils.profileID!);
 
                                //     Map valueMap = jsonDecode(response.body);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unnoti/ui/screens/home_screen.dart';
 
 import '../../data/auth_utils.dart';
 import '../screens/authentication/sign_in_screen.dart';
@@ -22,22 +23,27 @@ class UnnotiDrawer extends StatelessWidget {
           const SizedBox(
             height: 50,
           ),
-          Row(
-            children: [
-              Image.asset(
-                'assets/app_icon.png',
-                scale: 1,
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              const Text(
-                'Unnoti',
-                style: TextStyle(fontSize: 28, color: Colors.white),
-              ),
-              const Spacer(),
-              Image.asset('assets/drawer_bar.png'),
-            ],
+          InkWell(
+            onTap: () {
+              Get.to(const HomeScreen());
+            },
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/app_icon.png',
+                  scale: 1,
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                const Text(
+                  'Unnoti',
+                  style: TextStyle(fontSize: 28, color: Colors.white),
+                ),
+                const Spacer(),
+                Image.asset('assets/drawer_bar.png'),
+              ],
+            ),
           ),
           const SizedBox(
             height: 50,
@@ -46,11 +52,7 @@ class UnnotiDrawer extends StatelessWidget {
 
             onTap: () {
               AuthUtils.getAuthData();
-              Get.to(EnterLotteryCuponCode(
-                token: AuthUtils.token!,
-                phoneNumber: AuthUtils.phoneNumber!,
-                profileID: AuthUtils.profileID!,
-              ));
+              Get.to(const EnterLotteryCuponCode());
             },
             leading: Icon(
               Icons.token,
@@ -69,11 +71,7 @@ class UnnotiDrawer extends StatelessWidget {
           ListTile(
             onTap: () {
               AuthUtils.getAuthData();
-              Get.to(ProductPointViewScreen(
-                token: AuthUtils.token!,
-                phoneNumber: AuthUtils.phoneNumber!,
-                profileID: AuthUtils.profileID!,
-              ));
+              Get.to(const ProductPointViewScreen());
             },
             leading: Icon(
               Icons.propane_outlined,

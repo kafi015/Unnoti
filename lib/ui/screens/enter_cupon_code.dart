@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:unnoti/data/auth_utils.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
 import 'package:unnoti/ui/widgets/app_elevated_button.dart';
 import 'package:unnoti/ui/widgets/screen_background.dart';
@@ -12,11 +13,8 @@ import '../../data/services/urls.dart';
 import '../widgets/app_text_form_field.dart';
 
 class EnterCuponCode extends StatefulWidget {
-  const EnterCuponCode({Key? key, required this.token, required this.phoneNumber, required this.profileID}) : super(key: key);
+  const EnterCuponCode({Key? key, }) : super(key: key);
 
-  final String token;
-  final String phoneNumber;
-  final int profileID;
 
   @override
   State<EnterCuponCode> createState() => _EnterCuponCodeState();
@@ -37,6 +35,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
   getProfileData(int id)
   async {
 
+    AuthUtils.getAuthData();
     inProgress = true;
     setState(() {});
 
@@ -46,7 +45,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
       headers: {
         "Content-Type": "application/json",
         'Authorization':
-        'Token ${widget.token}'
+        'Token ${AuthUtils.token}'
       },
     );
     profileMap = jsonDecode(response.body);
@@ -58,7 +57,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProfileData(widget.profileID);
+    getProfileData(AuthUtils.profileID!);
 
   }
 
@@ -174,7 +173,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                                           .post(Uri.parse(Urls.rechargeUrl),
                                           headers: {
                                             "Content-Type": "application/json",
-                                            "Authorization" : "Token ${widget.token}",
+                                            "Authorization" : "Token ${AuthUtils.token}",
                                           },
                                           body: jsonEncode({
                                             "dial_code": cuponETController.text

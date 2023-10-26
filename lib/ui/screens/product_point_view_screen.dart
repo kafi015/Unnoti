@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:unnoti/data/auth_utils.dart';
 
 import '../../data/services/urls.dart';
 import '../widgets/screen_background.dart';
@@ -10,11 +11,8 @@ import '../widgets/unnoti_appbar.dart';
 import '../widgets/unnoti_drawer.dart';
 
 class ProductPointViewScreen extends StatefulWidget {
-  const ProductPointViewScreen({Key? key, required this.token, required this.phoneNumber, required this.profileID}) : super(key: key);
+  const ProductPointViewScreen({Key? key,}) : super(key: key);
 
-  final String token;
-  final String phoneNumber;
-  final int profileID;
 
   @override
   State<ProductPointViewScreen> createState() => _ProductPointViewScreenState();
@@ -29,6 +27,8 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
   double drawerIconSize = 25;
 
   getProfileData(int id) async {
+
+    AuthUtils.getAuthData();
     inProgress = true;
     setState(() {});
 
@@ -36,7 +36,7 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
       Uri.parse(Urls.profileByIDUrl(id)), //for profile check
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Token ${widget.token}'
+        'Authorization': 'Token ${AuthUtils.token}'
       },
     );
     valueMap = jsonDecode(response.body);
@@ -45,7 +45,7 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
       Uri.parse(Urls.productPointUrl), //for profile check
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Token ${widget.token}'
+        'Authorization': 'Token ${AuthUtils.token}'
       },
     );
 
@@ -76,7 +76,7 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProfileData(widget.profileID);
+    getProfileData(AuthUtils.profileID!);
   }
 
   @override

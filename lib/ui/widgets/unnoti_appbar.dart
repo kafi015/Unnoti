@@ -80,11 +80,7 @@ class UnnotiAppBar extends StatelessWidget {
         InkWell(
             onTap: () {
               AuthUtils.getAuthData();
-              Get.to(ProfileScreen(
-                token: AuthUtils.token!,
-                phoneNumber: AuthUtils.phoneNumber!,
-                profileID: AuthUtils.profileID!,
-              ));
+              Get.to(const ProfileScreen());
             },
             child:
             Image.asset('assets/example_profile.png')),

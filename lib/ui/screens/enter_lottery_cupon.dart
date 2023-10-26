@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:unnoti/data/auth_utils.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
 
 import '../../data/services/urls.dart';
@@ -12,11 +13,8 @@ import '../widgets/app_text_form_field.dart';
 import '../widgets/screen_background.dart';
 
 class EnterLotteryCuponCode extends StatefulWidget {
-  const EnterLotteryCuponCode({Key? key, required this.token, required this.phoneNumber, required this.profileID})
+  const EnterLotteryCuponCode({Key? key,})
       : super(key: key);
-  final String token;
-  final String phoneNumber;
-  final int profileID;
 
   @override
   State<EnterLotteryCuponCode> createState() => _EnterLotteryCuponCodeState();
@@ -140,13 +138,14 @@ class _EnterLotteryCuponCodeState extends State<EnterLotteryCuponCode> {
                                       inProgressCuponSubmit = true;
                                       setState(() {});
 
+                                      AuthUtils.getAuthData();
                                       final http.Response response = await http
                                           .post(Uri.parse(Urls.lotteryUrl),
                                               headers: {
                                                 "Content-Type":
                                                     "application/json",
                                                 "Authorization":
-                                                    "Token ${widget.token}",
+                                                    "Token ${AuthUtils.token}",
                                               },
                                               body: jsonEncode({
                                                 "gtoken":

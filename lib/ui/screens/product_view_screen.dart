@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:unnoti/data/auth_utils.dart';
 
 import '../../data/services/urls.dart';
 import '../widgets/screen_background.dart';
@@ -11,15 +12,8 @@ import '../widgets/unnoti_drawer.dart';
 
 class ProductViewScreen extends StatefulWidget {
   const ProductViewScreen(
-      {Key? key,
-      required this.token,
-      required this.phoneNumber,
-      required this.profileID})
+      {Key? key,})
       : super(key: key);
-
-  final String token;
-  final String phoneNumber;
-  final int profileID;
 
   @override
   State<ProductViewScreen> createState() => _ProductViewScreenState();
@@ -31,6 +25,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
   bool inProgress = false;
 
   getProfileData(int id) async {
+    AuthUtils.getAuthData();
     inProgress = true;
     setState(() {});
 
@@ -38,7 +33,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
       Uri.parse(Urls.profileByIDUrl(id)), //for profile check
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Token ${widget.token}'
+        'Authorization': 'Token ${AuthUtils.token}'
       },
     );
     valueMap = jsonDecode(response.body);
@@ -47,7 +42,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
       Uri.parse(Urls.productUrl), //for profile check
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Token ${widget.token}'
+        'Authorization': 'Token ${AuthUtils.token}'
       },
     );
 
@@ -63,7 +58,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProfileData(widget.profileID);
+    getProfileData(AuthUtils.profileID!);
   }
 
   @override

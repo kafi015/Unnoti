@@ -238,22 +238,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 image: 'assets/recharge_card_icon.png',
                                 title: 'Recharge Card',
                                 onTap: () {
-                                  Get.to(EnterCuponCode(
-                                    token: AuthUtils.token!,
-                                    phoneNumber: AuthUtils.phoneNumber!,
-                                    profileID: AuthUtils.profileID!,
-                                  ));
+                                  Get.to(const EnterCuponCode());
                                 },
                               ),
                               ActivityCard(
                                 image: 'assets/lottery_icon.jpg',
                                 title: 'Lottery',
                                 onTap: () {
-                                  Get.to(EnterLotteryCuponCode(
-                                    token: AuthUtils.token!,
-                                    phoneNumber: AuthUtils.phoneNumber!,
-                                    profileID: AuthUtils.profileID!,
-                                  ));
+                                  Get.to(const EnterLotteryCuponCode());
                                 },
                               ),
                               ActivityCard(
@@ -281,11 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           text: 'Product View',
                           color: const Color(0xff783a9d),
                           onPressed: () {
-                            Get.to(ProductViewScreen(
-                              token: AuthUtils.token!,
-                              phoneNumber: AuthUtils.phoneNumber!,
-                              profileID: AuthUtils.profileID!,
-                            ));
+                            Get.to(const ProductViewScreen());
                           },
                         ),
                         const SizedBox(
