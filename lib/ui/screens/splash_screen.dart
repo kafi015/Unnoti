@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unnoti/data/auth_utils.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
 
@@ -43,9 +42,8 @@ class _SplashScreenState extends State<SplashScreen> {
     final bool result = await AuthUtils.checkLoginState();
 
     if (result) {
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       AuthUtils.getAuthData();
-      Get.offAll(HomeScreen(token: sharedPreferences.getString('token').toString(), phoneNumber: sharedPreferences.getString('phoneNumber').toString(), profileID: int.parse(sharedPreferences.getString('profileID').toString())));
+      Get.offAll(const HomeScreen());
     }
     // else {
     //   Get.to(const SignInScreen());

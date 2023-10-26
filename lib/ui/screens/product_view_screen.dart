@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:unnoti/ui/screens/profile_screen.dart';
 
 import '../../data/services/urls.dart';
 import '../widgets/screen_background.dart';
-import 'authentication/sign_in_screen.dart';
+import '../widgets/unnoti_appbar.dart';
+import '../widgets/unnoti_drawer.dart';
 
 class ProductViewScreen extends StatefulWidget {
   const ProductViewScreen(
@@ -30,8 +29,6 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
   Map? valueMap;
   List<dynamic>? productList;
   bool inProgress = false;
-  double drawerFontSize = 18;
-  double drawerIconSize = 25;
 
   getProfileData(int id) async {
     inProgress = true;
@@ -56,21 +53,6 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
 
     log(res.body);
     productList = json.decode(res.body).cast<dynamic>();
-    // productList = [{"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //   {"id":1,"title":"White 10L Color","description":"White is the lightest color and is achromatic (having no hue). It is the color of fresh snow, chalk, and milk, and is the opposite of black. White objects fully reflect and scatter all the visible wavelengths of light. White on television and computer screens is created by a mixture of red, blue, and green light.","image":"/media/images/unnotilogo.png","created_on":"2023-10-13","updated_on":"2023-10-13"},{"id":2,"title":"abc","description":"hhgjhg hjggh","image":"/media/images/CC.ico","created_on":"2023-10-19","updated_on":"2023-10-19"},
-    //
-    // ];
     log(productList!.length.toString());
 
     inProgress = false;
@@ -89,138 +71,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: Drawer(
-        width: 250,
-        backgroundColor: Colors.black12.withOpacity(0.3),
-        child: ListView(
-          children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              children: [
-                Image.asset(
-                  'assets/app_icon.png',
-                  scale: 1,
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                const Text(
-                  'Unnoti',
-                  style: TextStyle(fontSize: 28, color: Colors.white),
-                ),
-                const Spacer(),
-                Image.asset('assets/drawer_bar.png'),
-              ],
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.token,
-                color: Colors.white,
-                size: drawerIconSize,
-              ),
-              title: Text(
-                'Token',
-                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.propane_outlined,
-                color: Colors.white,
-                size: drawerIconSize,
-              ),
-              title: Text(
-                'Product',
-                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.local_offer_outlined,
-                color: Colors.white,
-                size: drawerIconSize,
-              ),
-              title: Text(
-                'Offer',
-                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.language,
-                color: Colors.white,
-                size: drawerIconSize,
-              ),
-              title: Text(
-                'Language',
-                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.insert_invitation_outlined,
-                color: Colors.white,
-                size: drawerIconSize,
-              ),
-              title: Text(
-                'Invite Friend',
-                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.help,
-                color: Colors.white,
-                size: drawerIconSize,
-              ),
-              title: Text(
-                'Help',
-                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: () {
-                Get.offAll(const SignInScreen());
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.logout_outlined,
-                  color: Colors.white,
-                  size: drawerIconSize,
-                ),
-                title: Text(
-                  'Logout',
-                  style:
-                      TextStyle(fontSize: drawerFontSize, color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: const UnnotiDrawer(),
       body: ScreenBackground(
         backgroundImage: 'assets/home_background.png',
         widget: SafeArea(
@@ -236,86 +87,8 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AppBar(
-                          leading: Builder(
-                            builder: (BuildContext context) {
-                              return IconButton(
-                                icon: const Icon(
-                                  Icons.menu,
-                                  color: Colors.black,
-                                  size: 28,
-                                ),
-                                onPressed: () {
-                                  Scaffold.of(context).openDrawer();
-                                },
-                                tooltip: MaterialLocalizations.of(context)
-                                    .openAppDrawerTooltip,
-                              );
-                            },
-                          ),
+                        UnnotiAppBar(name: valueMap!['name'] ?? 'Unknown',point: valueMap!['points'] ?? 'Unknown',),
 
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                          //  title:
-                          actions: [
-                            const SizedBox(
-                              width: 55,
-                            ),
-                            const Icon(
-                              Icons.notifications,
-                              color: Colors.black,
-                              size: 28,
-                            ),
-                            const Spacer(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  valueMap!['name'] ?? 'Unknown',
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${valueMap!['points'] ?? 'Unknown'} Points',
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                    Image.asset(
-                                      'assets/jems_icon.png',
-                                      height: 30,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  Get.to(ProfileScreen(
-                                    token: widget.token,
-                                    phoneNumber: widget.phoneNumber,
-                                    profileID: widget.profileID,
-                                  ));
-                                },
-                                child:
-                                    Image.asset('assets/example_profile.png')),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                          ],
-                        ),
                         const SizedBox(
                           height: 10,
                         ),

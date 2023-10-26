@@ -11,5 +11,6 @@ class Urls {
   static String rechargeUrl = '${baseUrl}recharge/';
   static String productUrl = '${baseUrl}product/';
   static String lotteryUrl = '${baseUrl}lottery/';
+  static String productPointUrl = '${baseUrl}productpoint/';
   static String profileByIDUrl(int id) => '${baseUrl}profile/$id';
 }

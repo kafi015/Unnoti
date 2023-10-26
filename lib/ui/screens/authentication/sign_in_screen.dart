@@ -197,12 +197,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                                   vMap['id'].toString());
                                               if (res.statusCode == 200) {
                                                 //print(vMap['id']);
-                                                Get.offAll(HomeScreen(
-                                                  token: valueMap['token'],
-                                                  phoneNumber:
-                                                      '+88${phoneETController.text}',
-                                                  profileID: vMap['id'],
-                                                ));
+                                                Get.offAll(const HomeScreen());
                                                 log('aksdjfnaskdjnflaksdnaksjd hekkki');
                                               } else if (res.statusCode ==
                                                   404) {

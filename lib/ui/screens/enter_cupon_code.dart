@@ -9,7 +9,6 @@ import 'package:unnoti/ui/widgets/app_elevated_button.dart';
 import 'package:unnoti/ui/widgets/screen_background.dart';
 
 import '../../data/services/urls.dart';
-import '../../main.dart';
 import '../widgets/app_text_form_field.dart';
 
 class EnterCuponCode extends StatefulWidget {
@@ -24,6 +23,7 @@ class EnterCuponCode extends StatefulWidget {
 }
 
 class _EnterCuponCodeState extends State<EnterCuponCode> {
+
 
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -185,7 +185,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                                       if(response.statusCode == 200)
                                         {
                                           Map valueMap = jsonDecode(response.body);
-                                          showAlertDialog(Unnoti.globalKey.currentContext!,valueMap['message']);
+                                          showAlertDialog(context,valueMap['message']);
 
                                           inProgressCuponSubmit = false;
                                           setState(() {});
@@ -193,7 +193,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                                       else if(response.statusCode == 400)
                                       {
                                         Map valueMap = jsonDecode(response.body);
-                                        showAlertDialog(Unnoti.globalKey.currentContext!,valueMap['message']);
+                                        showAlertDialog(context,valueMap['message']);
 
                                         inProgressCuponSubmit = false;
                                         setState(() {});
@@ -228,7 +228,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () {
-        Get.to(HomeScreen(token: widget.token, phoneNumber: widget.phoneNumber, profileID: widget.profileID));
+        Get.to(const HomeScreen());
       },
     );
 

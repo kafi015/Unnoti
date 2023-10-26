@@ -88,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          Get.to(HomeScreen(token: widget.token, phoneNumber: widget.phoneNumber, profileID: widget.profileID));
+                          Get.to(const HomeScreen());
                         },
                         child: const Text(
                           'Cancel',

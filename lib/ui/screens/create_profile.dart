@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:unnoti/data/auth_utils.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
 
 import '../../data/services/urls.dart';
@@ -195,7 +196,8 @@ class _CreateProfileState extends State<CreateProfile> {
                                       Map valueMap = jsonDecode(response.body);
                                       //print(valueMap);
                                       //  print(valueMap['otp']);
-                                      Get.offAll(HomeScreen(token: widget.token, phoneNumber: widget.phoneNumber, profileID: valueMap['id']));
+                                      AuthUtils.saveUserData(widget.token, widget.phoneNumber, valueMap['id']);
+                                      Get.offAll(const HomeScreen());
 
                                     }
                                     else {

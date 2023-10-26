@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:unnoti/ui/screens/home_screen.dart';
 
 import '../../data/services/urls.dart';
-import '../../main.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/app_text_form_field.dart';
 import '../widgets/screen_background.dart';
@@ -123,7 +122,7 @@ class _EnterLotteryCuponCodeState extends State<EnterLotteryCuponCode> {
                               },
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 40,
                             ),
                             inProgressCuponSubmit
                                 ? const Center(
@@ -157,12 +156,12 @@ class _EnterLotteryCuponCodeState extends State<EnterLotteryCuponCode> {
                                       log(response.body);
                                       if (response.statusCode == 200) {
                                         showAlertDialog(
-                                            Unnoti.globalKey.currentContext!, 'Cupon code Submitted Successfully!');
+                                            context, 'Cupon code Submitted Successfully!');
                                       }
                                       else
                                         {
                                           showAlertDialog(
-                                              Unnoti.globalKey.currentContext!, 'Submit Failed!');
+                                              context, 'Submit Failed!');
                                         }
                                       inProgressCuponSubmit = false;
                                       setState(() {});
@@ -190,7 +189,7 @@ class _EnterLotteryCuponCodeState extends State<EnterLotteryCuponCode> {
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () {
-           Get.to(HomeScreen(token: widget.token, phoneNumber: widget.phoneNumber, profileID: widget.profileID));
+           Get.to(const HomeScreen());
       },
     );
 

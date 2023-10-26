@@ -3,28 +3,22 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:unnoti/ui/screens/authentication/sign_in_screen.dart';
+import 'package:unnoti/data/auth_utils.dart';
 import 'package:unnoti/ui/screens/enter_lottery_cupon.dart';
 import 'package:unnoti/ui/screens/product_view_screen.dart';
-import 'package:unnoti/ui/screens/profile_screen.dart';
 import 'package:unnoti/ui/widgets/app_elevated_button.dart';
 import 'package:unnoti/ui/widgets/screen_background.dart';
+import 'package:unnoti/ui/widgets/unnoti_drawer.dart';
 
 import '../../data/services/urls.dart';
 import '../widgets/activity_card.dart';
+import '../widgets/unnoti_appbar.dart';
 import 'enter_cupon_code.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen(
-      {Key? key,
-      required this.token,
-      required this.phoneNumber,
-      required this.profileID})
-      : super(key: key);
-
-  final String token;
-  final String phoneNumber;
-  final int profileID;
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -40,11 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
     inProgress = true;
     setState(() {});
 
+    AuthUtils.getAuthData();
+
     final http.Response response = await http.get(
       Uri.parse(Urls.profileByIDUrl(id)), //for profile check
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Token ${widget.token}'
+        'Authorization': 'Token ${AuthUtils.token}'
       },
     );
     valueMap = jsonDecode(response.body);
@@ -56,175 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProfileData(widget.profileID);
+    getProfileData(AuthUtils.profileID!);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: Drawer(
-        width: 250,
-        backgroundColor: Colors.black12.withOpacity(0.3),
-        child: ListView(
-          children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              children: [
-                Image.asset(
-                  'assets/app_icon.png',
-                  scale: 1,
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                const Text(
-                  'Unnoti',
-                  style: TextStyle(fontSize: 28, color: Colors.white),
-                ),
-                const Spacer(),
-                Image.asset('assets/drawer_bar.png'),
-              ],
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            InkWell(
-              onTap: () {
-                Get.to(EnterLotteryCuponCode(
-                  token: widget.token,
-                  phoneNumber: widget.phoneNumber,
-                  profileID: widget.profileID,
-                ));
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.token,
-                  color: Colors.white,
-                  size: drawerIconSize,
-                ),
-                title: Text(
-                  'Token',
-                  style:
-                      TextStyle(fontSize: drawerFontSize, color: Colors.white),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: () {},
-              child: ListTile(
-                leading: Icon(
-                  Icons.propane_outlined,
-                  color: Colors.white,
-                  size: drawerIconSize,
-                ),
-                title: Text(
-                  'Product',
-                  style:
-                      TextStyle(fontSize: drawerFontSize, color: Colors.white),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: () {},
-              child: ListTile(
-                leading: Icon(
-                  Icons.local_offer_outlined,
-                  color: Colors.white,
-                  size: drawerIconSize,
-                ),
-                title: Text(
-                  'Offer',
-                  style:
-                      TextStyle(fontSize: drawerFontSize, color: Colors.white),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: () {},
-              child: ListTile(
-                leading: Icon(
-                  Icons.language,
-                  color: Colors.white,
-                  size: drawerIconSize,
-                ),
-                title: Text(
-                  'Language',
-                  style:
-                      TextStyle(fontSize: drawerFontSize, color: Colors.white),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: () {},
-              child: ListTile(
-                leading: Icon(
-                  Icons.insert_invitation_outlined,
-                  color: Colors.white,
-                  size: drawerIconSize,
-                ),
-                title: Text(
-                  'Invite Friend',
-                  style:
-                      TextStyle(fontSize: drawerFontSize, color: Colors.white),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: () {},
-              child: ListTile(
-                leading: Icon(
-                  Icons.help,
-                  color: Colors.white,
-                  size: drawerIconSize,
-                ),
-                title: Text(
-                  'Help',
-                  style:
-                      TextStyle(fontSize: drawerFontSize, color: Colors.white),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            InkWell(
-              onTap: () {
-                Get.offAll(const SignInScreen());
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.logout_outlined,
-                  color: Colors.white,
-                  size: drawerIconSize,
-                ),
-                title: Text(
-                  'Logout',
-                  style:
-                      TextStyle(fontSize: drawerFontSize, color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: const UnnotiDrawer(),
       body: ScreenBackground(
         backgroundImage: 'assets/home_background.png',
         widget: SafeArea(
@@ -240,86 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AppBar(
-                          leading: Builder(
-                            builder: (BuildContext context) {
-                              return IconButton(
-                                icon: const Icon(
-                                  Icons.menu,
-                                  color: Colors.black,
-                                  size: 28,
-                                ),
-                                onPressed: () {
-                                  Scaffold.of(context).openDrawer();
-                                },
-                                tooltip: MaterialLocalizations.of(context)
-                                    .openAppDrawerTooltip,
-                              );
-                            },
-                          ),
-
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                          //  title:
-                          actions: [
-                            const SizedBox(
-                              width: 55,
-                            ),
-                            const Icon(
-                              Icons.notifications,
-                              color: Colors.black,
-                              size: 28,
-                            ),
-                            const Spacer(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  valueMap!['name'] ?? 'Unknown',
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${valueMap!['points'] ?? 'Unknown'} Points',
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-
-                                      ),
-                                    ),
-                                    Image.asset(
-                                      'assets/jems_icon.png',
-                                      height: 25,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  Get.to(ProfileScreen(
-                                    token: widget.token,
-                                    phoneNumber: widget.phoneNumber,
-                                    profileID: widget.profileID,
-                                  ));
-                                },
-                                child:
-                                    Image.asset('assets/example_profile.png')),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                          ],
+                        UnnotiAppBar(
+                          name: valueMap!['name'] ?? 'Unknown',
+                          point: valueMap!['points'] ?? 'Unknown',
                         ),
                         const SizedBox(
                           height: 10,
@@ -444,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 30,
                         ),
-                         Row(
+                        Row(
                           children: [
                             const Text(
                               'Activity',
@@ -455,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             const Spacer(),
                             InkWell(
-                              onTap: (){},
+                              onTap: () {},
                               child: const Text(
                                 'See All',
                                 style: TextStyle(
@@ -481,9 +239,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 title: 'Recharge Card',
                                 onTap: () {
                                   Get.to(EnterCuponCode(
-                                    token: widget.token,
-                                    phoneNumber: widget.phoneNumber,
-                                    profileID: widget.profileID,
+                                    token: AuthUtils.token!,
+                                    phoneNumber: AuthUtils.phoneNumber!,
+                                    profileID: AuthUtils.profileID!,
+                                  ));
+                                },
+                              ),
+                              ActivityCard(
+                                image: 'assets/lottery_icon.jpg',
+                                title: 'Lottery',
+                                onTap: () {
+                                  Get.to(EnterLotteryCuponCode(
+                                    token: AuthUtils.token!,
+                                    phoneNumber: AuthUtils.phoneNumber!,
+                                    profileID: AuthUtils.profileID!,
                                   ));
                                 },
                               ),
@@ -513,9 +282,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: const Color(0xff783a9d),
                           onPressed: () {
                             Get.to(ProductViewScreen(
-                                token: widget.token,
-                                phoneNumber: widget.phoneNumber,
-                                profileID: widget.profileID));
+                              token: AuthUtils.token!,
+                              phoneNumber: AuthUtils.phoneNumber!,
+                              profileID: AuthUtils.profileID!,
+                            ));
                           },
                         ),
                         const SizedBox(
