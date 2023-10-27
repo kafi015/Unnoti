@@ -29,46 +29,67 @@ class _HomeScreenState extends State<HomeScreen> {
   Map? valueMap;
   List<dynamic>? rechargelogList;
   List<dynamic>? paidPointList;
-  List<dynamic>? notPaidPointList;
+  List<dynamic>? rechargeHistoryList;
+  String? lastEarnedPoint;
+  String? lastPaymentDate;
+
   bool inProgress = false;
 
   getProfileData(int id) async {
-    inProgress = true;
-    setState(() {});
+    try{
+      inProgress = true;
+      setState(() {});
 
-    AuthUtils.getAuthData();
+      AuthUtils.getAuthData();
 
-    final http.Response response = await http.get(
-      Uri.parse(Urls.profileByIDUrl(id)), //for profile check
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': 'Token ${AuthUtils.token}'
-      },
-    );
-    log(response.body);
-    valueMap = jsonDecode(response.body);
-
-
-    final http.Response responseRecharge = await http.get(
-      Uri.parse(Urls.rechargeLogUrl), //for profile check
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': 'Token ${AuthUtils.token}'
-      },
-    );
-    log(responseRecharge.body);
-    rechargelogList = json.decode(responseRecharge.body).cast<dynamic>();
-   paidPointList = rechargelogList!.where((e) => e["key"] == 'Points Paid').toList();
-
-   //print(paidPointList);
-
-   notPaidPointList = rechargelogList!.where((e) => e["key"] != 'Points Paid').toList();
-    //print(notPaidPointList);
+      final http.Response response = await http.get(
+        Uri.parse(Urls.profileByIDUrl(id)), //for profile check
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Token ${AuthUtils.token}'
+        },
+      );
+      log(response.body);
+      valueMap = jsonDecode(response.body);
 
 
+       final http.Response responseRecharge = await http.get(
+         Uri.parse(Urls.rechargeLogUrl), //for profile check
+         headers: {
+           "Content-Type": "application/json",
+           'Authorization': 'Token ${AuthUtils.token}'
+         },
+       );
 
-    inProgress = false;
-    setState(() {});
+       log(responseRecharge.body);
+       rechargelogList = json.decode(responseRecharge.body).cast<dynamic>();
+
+       print(rechargelogList);
+
+     if(rechargelogList!.isNotEmpty)
+       {
+         log('hello1');
+         paidPointList = rechargelogList!.where((e) => e["key"] == 'Points Paid').toList();
+         rechargeHistoryList = rechargelogList!.where((e) => e["key"] != 'Points Paid').toList();
+         log('hello2');
+         lastEarnedPoint = rechargeHistoryList!.last['value'].toString();
+         //print(paidPointList);
+         log('hello3');
+         lastPaymentDate = paidPointList!.last['date'].toString().split('T').first;
+         //print(notPaidPointList);
+
+       }
+
+
+
+      inProgress = false;
+      setState(() {});
+    }catch(e)
+    {
+      log('Error:\t $e');
+      inProgress = false;
+      setState(() {});
+    }
   }
 
   @override
@@ -192,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       const Spacer(),
                                       Text(
-                                        notPaidPointList!.last['value'].toString(),
+                                        lastEarnedPoint ?? 'Unknown',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 14,
@@ -214,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       const Spacer(),
                                       Text(
-                                        paidPointList!.last['date'].toString().split('T').first,
+                                        lastPaymentDate ?? 'Unknown',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 14,
