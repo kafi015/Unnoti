@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:unnoti/data/auth_utils.dart';
+import 'package:unnoti/ui/screens/product_deatails_view.dart';
 
 import '../../data/services/urls.dart';
 import '../widgets/screen_background.dart';
@@ -11,9 +13,9 @@ import '../widgets/unnoti_appbar.dart';
 import '../widgets/unnoti_drawer.dart';
 
 class ProductViewScreen extends StatefulWidget {
-  const ProductViewScreen(
-      {Key? key,})
-      : super(key: key);
+  const ProductViewScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ProductViewScreen> createState() => _ProductViewScreenState();
@@ -82,8 +84,10 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        UnnotiAppBar(name: valueMap!['name'] ?? 'Unknown',point: valueMap!['points'] ?? 'Unknown',),
-
+                        UnnotiAppBar(
+                          name: valueMap!['name'] ?? 'Unknown',
+                          point: valueMap!['points'] ?? 'Unknown',
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -153,31 +157,44 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                                     child: ListView.builder(
                                       physics: const BouncingScrollPhysics(),
                                       itemCount: productList!.length,
-                                      itemBuilder: (context, index) => Card(
-                                        color: const Color(0xffE6E0F4),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, bottom: 10),
-                                          child: ListTile(
-                                            leading: CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                'http://abdulazizhardware.com${productList![index]['image']}',
+                                      itemBuilder: (context, index) => InkWell(
+                                        onTap: () {
+                                          Get.to(ProductDetailsView(
+                                            title: productList![index]
+                                            ['title'],
+                                            description: productList![index]
+                                            ['description'],
+                                            image:
+                                            'http://abdulazizhardware.com${productList![index]['image']}',
+                                          ),);
+                                        },
+                                        child: Card(
+                                          color: const Color(0xffE6E0F4),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5, bottom: 10),
+                                            child: ListTile(
+
+                                              leading: CircleAvatar(
+                                                backgroundImage: NetworkImage(
+                                                  'http://abdulazizhardware.com${productList![index]['image']}',
+                                                ),
+                                                radius: 25,
                                               ),
-                                              radius: 25,
+                                              title: Text(
+                                                  productList![index]['title']),
+                                              // subtitle: Text(productList![index]['description']),
+                                              subtitle: Text(productList![index]
+                                                              ['description']
+                                                          .length >
+                                                      65
+                                                  ? '${productList![index]['description'].substring(0, 65)}...'
+                                                  : productList![index]
+                                                      ['description']),
                                             ),
-                                            title: Text(
-                                                productList![index]['title']),
-                                            // subtitle: Text(productList![index]['description']),
-                                            subtitle: Text(productList![index]
-                                                            ['description']
-                                                        .length >
-                                                    65
-                                                ? '${productList![index]['description'].substring(0, 65)}...'
-                                                : productList![index]
-                                                    ['description']),
                                           ),
                                         ),
                                       ),
@@ -188,7 +205,6 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   ),

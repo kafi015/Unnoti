@@ -19,6 +19,7 @@ class UnnotiDrawer extends StatelessWidget {
       width: 250,
       backgroundColor: Colors.black12.withOpacity(0.3),
       child: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
           const SizedBox(
             height: 50,
@@ -91,6 +92,24 @@ class UnnotiDrawer extends StatelessWidget {
             onTap: () {},
             child: ListTile(
               leading: Icon(
+                Icons.work_history,
+                color: Colors.white,
+                size: drawerIconSize,
+              ),
+              title: Text(
+                'Redeem History',
+                style:
+                TextStyle(fontSize: drawerFontSize, color: Colors.white),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          InkWell(
+            onTap: () {},
+            child: ListTile(
+              leading: Icon(
                 Icons.local_offer_outlined,
                 color: Colors.white,
                 size: drawerIconSize,
@@ -102,6 +121,7 @@ class UnnotiDrawer extends StatelessWidget {
               ),
             ),
           ),
+
           const SizedBox(
             height: 20,
           ),
