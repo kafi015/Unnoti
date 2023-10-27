@@ -2,25 +2,24 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:unnoti/data/auth_utils.dart';
+import 'package:http/http.dart'  as http;
 
+import '../../data/auth_utils.dart';
 import '../../data/services/urls.dart';
 import '../widgets/screen_background.dart';
 import '../widgets/unnoti_appbar.dart';
 import '../widgets/unnoti_drawer.dart';
 
-class ProductPointViewScreen extends StatefulWidget {
-  const ProductPointViewScreen({Key? key,}) : super(key: key);
-
+class RechargeLogRedeemHistory extends StatefulWidget {
+  const RechargeLogRedeemHistory({Key? key}) : super(key: key);
 
   @override
-  State<ProductPointViewScreen> createState() => _ProductPointViewScreenState();
+  State<RechargeLogRedeemHistory> createState() => _RechargeLogRedeemHistoryState();
 }
 
-class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
-
+class _RechargeLogRedeemHistoryState extends State<RechargeLogRedeemHistory> {
   Map? valueMap;
+  List<dynamic>? pproductList;
   List<dynamic>? productList;
   bool inProgress = false;
 
@@ -40,7 +39,7 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
     valueMap = jsonDecode(response.body);
 
     final http.Response res = await http.get(
-      Uri.parse(Urls.productPointUrl), //for profile check
+      Uri.parse(Urls.rechargeLogUrl), //for profile check
       headers: {
         "Content-Type": "application/json",
         'Authorization': 'Token ${AuthUtils.token}'
@@ -48,8 +47,9 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
     );
 
     log(res.body);
-    productList = json.decode(res.body).cast<dynamic>();
-    log(productList!.length.toString());
+    pproductList = json.decode(res.body).cast<dynamic>();
+    productList = pproductList!.reversed.toList();
+    print(productList);
 
     inProgress = false;
     setState(() {});
@@ -88,40 +88,6 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
-                    height: 35,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        hintText: 'Search',
-                        prefixIcon: InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.search,
-                            color: Colors.grey,
-                            size: 25,
-                          ),
-                        ),
-                        suffixIcon: InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.mic,
-                            color: Colors.grey,
-                            size: 25,
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white54,
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                    ),
-                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -141,7 +107,7 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
                         child: Column(
                           children: [
                             const Text(
-                              'Product Redeem Point',
+                              'Rechage Log',
                               style: TextStyle(
                                   fontSize: 24,
                                   color: Color(0xff404040),
@@ -154,8 +120,8 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
                               child: ListView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: productList!.length,
-                                itemBuilder: (context, index) => Card(
-                                  color: const Color(0xffE6E0F4),
+                                itemBuilder: (context, index) => productList![index]['key'] == 'Points Paid'?Card(
+                                  color:  const Color(0xffE6E0F4),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                       BorderRadius.circular(15.0)),
@@ -165,12 +131,30 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
                                     child: ListTile(
 
                                       title: Text(
-                                          productList![index]['title']),
+                                          productList![index]['key'],style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,),),
                                       // subtitle: Text(productList![index]['description']),
-                                     trailing: Text(productList![index]['point']),
+                                      trailing: Text('-${productList![index]['value']}',style: TextStyle(color: Colors.red,fontWeight: FontWeight.w600),),
                                     ),
                                   ),
-                                ),
+                                ):
+                                Card(
+                                  color:  const Color(0xffE6E0F4),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(15.0)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5, bottom: 10),
+                                    child: ListTile(
+
+                                      title: Text(
+                                        productList![index]['key'],style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,),),
+                                      // subtitle: Text(productList![index]['description']),
+                                      trailing: Text('+${productList![index]['value']}',style: TextStyle(color: Colors.green,fontWeight: FontWeight.w600),),
+                                    ),
+                                  ),
+                                )
+                                ,
                               ),
                             ),
                           ],

@@ -6,6 +6,7 @@ import '../../data/auth_utils.dart';
 import '../screens/authentication/sign_in_screen.dart';
 import '../screens/enter_lottery_cupon.dart';
 import '../screens/product_point_view_screen.dart';
+import '../screens/rechage_log_history.dart';
 
 class UnnotiDrawer extends StatelessWidget {
   const UnnotiDrawer({Key? key}) : super(key: key);
@@ -80,7 +81,7 @@ class UnnotiDrawer extends StatelessWidget {
               size: drawerIconSize,
             ),
             title: Text(
-              'Products',
+              'Products Point',
               style:
               TextStyle(fontSize: drawerFontSize, color: Colors.white),
             ),
@@ -89,7 +90,9 @@ class UnnotiDrawer extends StatelessWidget {
             height: 20,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.to(const RechargeLogRedeemHistory());
+            },
             child: ListTile(
               leading: Icon(
                 Icons.work_history,
