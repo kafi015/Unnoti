@@ -171,12 +171,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                                       }));
 
                                           //print(response.statusCode);
-
+                                          log(response.body);
+                                          Map valueMap = jsonDecode(response.body);
                                           if (response.statusCode == 200) {
-                                            log(response.body);
-                                            Map valueMap =
-                                                jsonDecode(response.body);
-
                                             try {
                                               final http.Response res =
                                                   await http.get(
@@ -189,14 +186,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                                       'Token ${valueMap['token']}'
                                                 },
                                               );
+                                              log(res.statusCode.toString());
                                               log(res.body);
                                               Map vMap = jsonDecode(res.body);
-                                              AuthUtils.saveUserData(
-                                                  valueMap['token'],
-                                                  '+88${phoneETController.text}',
-                                                  vMap['id'].toString());
+
                                               if (res.statusCode == 200) {
                                                 //print(vMap['id']);
+                                                AuthUtils.saveUserData(
+                                                    valueMap['token'],
+                                                    '+88${phoneETController.text}',
+                                                    vMap['id']);
                                                 Get.offAll(const HomeScreen());
                                                 log('aksdjfnaskdjnflaksdnaksjd hekkki');
                                               } else if (res.statusCode ==
@@ -222,7 +221,22 @@ class _SignInScreenState extends State<SignInScreen> {
                                             } catch (e) {
                                               log('Error profile check: \n $e');
                                             }
-                                          } else {
+                                          }
+                                          else if(response.statusCode == 401)
+                                            {
+                                              log("Account not active");
+                                              Get.snackbar(
+                                                "Message!",
+                                                valueMap['error'],
+                                                snackPosition:
+                                                SnackPosition.BOTTOM,
+                                                backgroundColor: Colors.red,
+                                                colorText: Colors.white,
+                                                snackStyle: SnackStyle.FLOATING,
+                                              );
+                                            }
+
+                                          else {
                                             log("Something went wrong");
                                             Get.snackbar(
                                               "Error!",

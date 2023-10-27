@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unnoti/ui/screens/notification_screen.dart';
 
 import '../../data/auth_utils.dart';
 import '../screens/profile_screen.dart';
 
 class UnnotiAppBar extends StatelessWidget {
-  const UnnotiAppBar({Key? key, required this.name, required this.point}) : super(key: key);
+  const UnnotiAppBar({Key? key, required this.name, required this.point})
+      : super(key: key);
 
   final String name;
   final int point;
@@ -24,8 +26,7 @@ class UnnotiAppBar extends StatelessWidget {
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
-            tooltip: MaterialLocalizations.of(context)
-                .openAppDrawerTooltip,
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           );
         },
       ),
@@ -37,10 +38,15 @@ class UnnotiAppBar extends StatelessWidget {
         const SizedBox(
           width: 55,
         ),
-        const Icon(
-          Icons.notifications,
-          color: Colors.black,
-          size: 28,
+        IconButton(
+          onPressed: () {
+            Get.to(const NotificationScreen());
+          },
+          icon: const Icon(
+            Icons.notifications,
+            color: Colors.black,
+            size: 28,
+          ),
         ),
         const Spacer(),
         Column(
@@ -82,8 +88,7 @@ class UnnotiAppBar extends StatelessWidget {
               AuthUtils.getAuthData();
               Get.to(const ProfileScreen());
             },
-            child:
-            Image.asset('assets/example_profile.png')),
+            child: Image.asset('assets/example_profile.png')),
         const SizedBox(
           width: 8,
         ),

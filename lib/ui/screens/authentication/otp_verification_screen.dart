@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:unnoti/main.dart';
 import 'package:unnoti/ui/screens/authentication/sign_in_screen.dart';
 
 import '../../../data/services/urls.dart';
@@ -119,7 +118,7 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
 
                                     if (response.statusCode == 200) {
                                       log(response.body);
-                                      showAlertDialog(Unnoti.globalKey.currentContext!);
+                                      showAlertDialog(context);
                                     }
                                      else {
                                       log("Something went wrong");

@@ -5,16 +5,16 @@ class AuthUtils {
   static String? phoneNumber;
   static int? profileID;
 
-  static Future<void> saveUserData(String uToken, String pNumber, String id) async {
+  static Future<void> saveUserData(String uToken, String pNumber, int id) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     sharedPreferences.setString('token', uToken);
     sharedPreferences.setString('phoneNumber', pNumber);
-    sharedPreferences.setString('profileID', id);
+    sharedPreferences.setString('profileID', id.toString());
 
     token = uToken;
     phoneNumber = pNumber;
-    profileID = int.parse(id);
+    profileID = id;
 
 
   }

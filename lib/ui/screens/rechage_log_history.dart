@@ -49,7 +49,7 @@ class _RechargeLogRedeemHistoryState extends State<RechargeLogRedeemHistory> {
     log(res.body);
     pproductList = json.decode(res.body).cast<dynamic>();
     productList = pproductList!.reversed.toList();
-    print(productList);
+    //print(productList);
 
     inProgress = false;
     setState(() {});
@@ -131,9 +131,9 @@ class _RechargeLogRedeemHistoryState extends State<RechargeLogRedeemHistory> {
                                     child: ListTile(
 
                                       title: Text(
-                                          productList![index]['key'],style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,),),
-                                      // subtitle: Text(productList![index]['description']),
-                                      trailing: Text('-${productList![index]['value']}',style: TextStyle(color: Colors.red,fontWeight: FontWeight.w600),),
+                                          productList![index]['key'],style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w600,),),
+                                       subtitle: Text(productList![index]['date'].toString().split('T').first),
+                                      trailing: Text('-${productList![index]['value']}',style: const TextStyle(color: Colors.red,fontWeight: FontWeight.w600),),
                                     ),
                                   ),
                                 ):
@@ -148,9 +148,9 @@ class _RechargeLogRedeemHistoryState extends State<RechargeLogRedeemHistory> {
                                     child: ListTile(
 
                                       title: Text(
-                                        productList![index]['key'],style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,),),
-                                      // subtitle: Text(productList![index]['description']),
-                                      trailing: Text('+${productList![index]['value']}',style: TextStyle(color: Colors.green,fontWeight: FontWeight.w600),),
+                                        productList![index]['key'],style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w600,),),
+                                      subtitle: Text(productList![index]['date'].toString().split('T').first),
+                                      trailing: Text('+${productList![index]['value']}',style: const TextStyle(color: Colors.green,fontWeight: FontWeight.w600),),
                                     ),
                                   ),
                                 )

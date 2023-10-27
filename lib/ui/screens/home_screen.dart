@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,9 +27,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Map? valueMap;
+  List<dynamic>? rechargelogList;
+  List<dynamic>? paidPointList;
+  List<dynamic>? notPaidPointList;
   bool inProgress = false;
-  double drawerFontSize = 18;
-  double drawerIconSize = 25;
 
   getProfileData(int id) async {
     inProgress = true;
@@ -43,7 +45,28 @@ class _HomeScreenState extends State<HomeScreen> {
         'Authorization': 'Token ${AuthUtils.token}'
       },
     );
+    log(response.body);
     valueMap = jsonDecode(response.body);
+
+
+    final http.Response responseRecharge = await http.get(
+      Uri.parse(Urls.rechargeLogUrl), //for profile check
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Token ${AuthUtils.token}'
+      },
+    );
+    log(responseRecharge.body);
+    rechargelogList = json.decode(responseRecharge.body).cast<dynamic>();
+   paidPointList = rechargelogList!.where((e) => e["key"] == 'Points Paid').toList();
+
+   //print(paidPointList);
+
+   notPaidPointList = rechargelogList!.where((e) => e["key"] != 'Points Paid').toList();
+    //print(notPaidPointList);
+
+
+
     inProgress = false;
     setState(() {});
   }
@@ -158,19 +181,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  const Row(
+                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Last Earned Point: ',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 14,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
-                                        'Unknown',
-                                        style: TextStyle(
+                                        notPaidPointList!.last['value'].toString(),
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 14,
                                         ),
@@ -180,19 +203,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  const Row(
+                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Last Payment Date: ',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 14,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
-                                        'Unknown',
-                                        style: TextStyle(
+                                        paidPointList!.last['date'].toString().split('T').first,
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 14,
                                         ),
