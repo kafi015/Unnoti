@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
        log(responseRecharge.body);
        rechargelogList = json.decode(responseRecharge.body).cast<dynamic>();
 
-       print(rechargelogList);
+       //print(rechargelogList);
 
      if(rechargelogList!.isNotEmpty)
        {
