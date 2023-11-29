@@ -1,11 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unnoti/ui/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
 import 'data/network_connectivity_check/network_check_controller.dart';
 
-void main() {
+Future<void> main() async {
+  //WidgetsFlutterBinding.ensureInitialized();
+
+  // Only call clearSavedSettings() during testing to reset internal values.
+  //await Upgrader.clearSavedSettings();
   runApp(const Unnoti());
 }
 
