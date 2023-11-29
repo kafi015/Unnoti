@@ -22,6 +22,11 @@ class ProductViewScreen extends StatefulWidget {
 }
 
 class _ProductViewScreenState extends State<ProductViewScreen> {
+
+  TextEditingController searchETController = TextEditingController();
+  String searchValue = '';
+  List<dynamic>? filteredList;
+
   Map? valueMap;
   List<dynamic>? productList;
   bool inProgress = false;
@@ -51,6 +56,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
     log(res.body);
     productList = json.decode(res.body).cast<dynamic>();
     log(productList!.length.toString());
+    filteredList = productList;
 
     inProgress = false;
     setState(() {});
@@ -94,6 +100,15 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                         SizedBox(
                           height: 35,
                           child: TextFormField(
+                            onChanged: (value){
+                              setState(() {
+                                filteredList = productList!
+                                    .where((item) =>
+                                    item['title'].toLowerCase().contains(value.toLowerCase()))
+                                    .toList();
+                              });
+                            },
+                            controller: searchETController,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.only(top: 10),
                               hintText: 'Search',
@@ -156,48 +171,49 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                                   Expanded(
                                     child: ListView.builder(
                                       physics: const BouncingScrollPhysics(),
-                                      itemCount: productList!.length,
-                                      itemBuilder: (context, index) => InkWell(
-                                        onTap: () {
-                                          Get.to(ProductDetailsView(
-                                            title: productList![index]
-                                            ['title'],
-                                            description: productList![index]
-                                            ['description'],
-                                            image:
-                                            'http://abdulazizhardware.com${productList![index]['image']}',
-                                          ),);
-                                        },
-                                        child: Card(
-                                          color: const Color(0xffE6E0F4),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5, bottom: 10),
-                                            child: ListTile(
+                                      itemCount: filteredList!.length,
+                                      itemBuilder: (context, index) =>InkWell(
+                                              onTap: () {
+                                                Get.to(ProductDetailsView(
+                                                  title: filteredList![index]
+                                                  ['title'],
+                                                  description: filteredList![index]
+                                                  ['description'],
+                                                  image:
+                                                  'http://abdulazizhardware.com${filteredList![index]['image']}',
+                                                ),);
+                                              },
+                                              child: Card(
+                                                color: const Color(0xffE6E0F4),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(15.0)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      top: 5, bottom: 10),
+                                                  child: ListTile(
 
-                                              leading: CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                  'http://abdulazizhardware.com${productList![index]['image']}',
+                                                    leading: CircleAvatar(
+                                                      backgroundImage: NetworkImage(
+                                                        'http://abdulazizhardware.com${filteredList![index]['image']}',
+                                                      ),
+                                                      radius: 25,
+                                                    ),
+                                                    title: Text(
+                                                        filteredList![index]['title']),
+                                                    // subtitle: Text(productList![index]['description']),
+                                                    subtitle: Text(filteredList![index]
+                                                    ['description']
+                                                        .length >
+                                                        65
+                                                        ? '${filteredList![index]['description'].substring(0, 65)}...'
+                                                        : filteredList![index]
+                                                    ['description']),
+                                                  ),
                                                 ),
-                                                radius: 25,
                                               ),
-                                              title: Text(
-                                                  productList![index]['title']),
-                                              // subtitle: Text(productList![index]['description']),
-                                              subtitle: Text(productList![index]
-                                                              ['description']
-                                                          .length >
-                                                      65
-                                                  ? '${productList![index]['description'].substring(0, 65)}...'
-                                                  : productList![index]
-                                                      ['description']),
                                             ),
-                                          ),
-                                        ),
-                                      ),
+
                                     ),
                                   ),
                                 ],

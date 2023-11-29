@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:unnoti/ui/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
+import 'data/network_connectivity_check/network_check_controller.dart';
+
 void main() {
   runApp(const Unnoti());
 }
@@ -24,7 +26,18 @@ class _UnnotiState extends State<Unnoti> {
         fontFamily: 'Montserrat'
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
+      initialBinding: GetxBinding(),
     );
+
+  }
+}
+
+
+class GetxBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(NetworkController());
+
   }
 }
