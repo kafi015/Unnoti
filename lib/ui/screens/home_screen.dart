@@ -367,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 10,
                           ),
                           Container(
-                            height: 100,
+                            height: 105,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: const Color(0xff976eee),
@@ -377,7 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 16.0, vertical: 16),
                               child: Text(
-                                'Hazi Abdul Aziz Hadware,\nMugoltuli, Cumilla-3500, Bangladesh.\n'
+                                'Hazi Abdul Aziz Hardware,\nMugoltuli, Cumilla-3500, Bangladesh.\n'
                                 'support@abdulazizhadware.com\nPhone Number 01617521162',
                                 style: TextStyle(
                                     fontSize: 15,

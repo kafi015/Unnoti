@@ -173,14 +173,14 @@ class _SignUPScreenState extends State<SignUPScreen> {
                                                 setState(() {});
                                                 final http.Response response = await http.post(
                                                     Uri.parse(Urls.registrationUrl),
-                                                    headers: {"Content-Type": "application/json"},
+                                                    headers: {"Content-Type": "application/json; charset=utf-8"},
                                                     body: jsonEncode({
                                                       'phone_number':
                                                       '+88${phoneETController.text}',
                                                       'password': passwordETController.text
                                                     }));
 
-                                                // print(response.statusCode);
+                                                 log('Status Code: ${response.statusCode}');
 
                                                 if (response.statusCode == 201) {
                                                   log(response.body);

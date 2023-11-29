@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unnoti/data/auth_utils.dart';
+import 'package:unnoti/main.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/screen_background.dart';
@@ -46,6 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+
       body: ScreenBackground(
         backgroundImage: 'assets/splash_background.png',
         widget: Padding(
