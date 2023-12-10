@@ -20,7 +20,7 @@ class UnnotiAppBar extends StatelessWidget {
           return IconButton(
             icon: const Icon(
               Icons.menu,
-              color: Colors.black,
+              color: Colors.purple,
               size: 28,
             ),
             onPressed: () {
@@ -44,7 +44,7 @@ class UnnotiAppBar extends StatelessWidget {
           },
           icon: const Icon(
             Icons.notifications,
-            color: Colors.black,
+            color: Colors.purple,
             size: 28,
           ),
         ),

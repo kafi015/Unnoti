@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:unnoti/ui/screens/help_screen.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
 
 import '../../data/auth_utils.dart';
 import '../screens/authentication/sign_in_screen.dart';
 import '../screens/enter_lottery_cupon.dart';
+import '../screens/offer_screen.dart';
 import '../screens/product_point_view_screen.dart';
 import '../screens/rechage_log_history.dart';
 
 class UnnotiDrawer extends StatelessWidget {
   const UnnotiDrawer({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class UnnotiDrawer extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Get.to(const HomeScreen());
+              Get.offAll(const HomeScreen());
             },
             child: Row(
               children: [
@@ -51,7 +53,6 @@ class UnnotiDrawer extends StatelessWidget {
             height: 50,
           ),
           ListTile(
-
             onTap: () {
               AuthUtils.getAuthData();
               Get.to(const EnterLotteryCuponCode());
@@ -63,8 +64,7 @@ class UnnotiDrawer extends StatelessWidget {
             ),
             title: Text(
               'Token',
-              style:
-              TextStyle(fontSize: drawerFontSize, color: Colors.white),
+              style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
             ),
           ),
           const SizedBox(
@@ -82,8 +82,7 @@ class UnnotiDrawer extends StatelessWidget {
             ),
             title: Text(
               'Products Point',
-              style:
-              TextStyle(fontSize: drawerFontSize, color: Colors.white),
+              style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
             ),
           ),
           const SizedBox(
@@ -101,8 +100,7 @@ class UnnotiDrawer extends StatelessWidget {
               ),
               title: Text(
                 'Redeem History',
-                style:
-                TextStyle(fontSize: drawerFontSize, color: Colors.white),
+                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
               ),
             ),
           ),
@@ -110,7 +108,9 @@ class UnnotiDrawer extends StatelessWidget {
             height: 20,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.to(const OfferScreen());
+            },
             child: ListTile(
               leading: Icon(
                 Icons.local_offer_outlined,
@@ -119,35 +119,43 @@ class UnnotiDrawer extends StatelessWidget {
               ),
               title: Text(
                 'Offer',
-                style:
-                TextStyle(fontSize: drawerFontSize, color: Colors.white),
+                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
               ),
             ),
           ),
 
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: ListTile(
+          //     leading: Icon(
+          //       Icons.language,
+          //       color: Colors.white,
+          //       size: drawerIconSize,
+          //     ),
+          //     title: Text(
+          //       'Language',
+          //       style:
+          //       TextStyle(fontSize: drawerFontSize, color: Colors.white),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(
             height: 20,
           ),
           InkWell(
-            onTap: () {},
-            child: ListTile(
-              leading: Icon(
-                Icons.language,
-                color: Colors.white,
-                size: drawerIconSize,
-              ),
-              title: Text(
-                'Language',
-                style:
-                TextStyle(fontSize: drawerFontSize, color: Colors.white),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          InkWell(
-            onTap: () {},
+            onTap: () => Clipboard.setData(const ClipboardData(
+                    text:
+                        'https://play.google.com/store/apps/details?id=com.unnoti.unnoti'))
+                .then((value) {
+              return ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.purple,
+                content: Text(
+                    'App link copied to the clipboard! Now you can share.'),
+              ));
+            }),
             child: ListTile(
               leading: Icon(
                 Icons.insert_invitation_outlined,
@@ -156,8 +164,7 @@ class UnnotiDrawer extends StatelessWidget {
               ),
               title: Text(
                 'Invite Friend',
-                style:
-                TextStyle(fontSize: drawerFontSize, color: Colors.white),
+                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
               ),
             ),
           ),
@@ -165,7 +172,9 @@ class UnnotiDrawer extends StatelessWidget {
             height: 20,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.to(const HelpScreen());
+            },
             child: ListTile(
               leading: Icon(
                 Icons.help,
@@ -174,8 +183,7 @@ class UnnotiDrawer extends StatelessWidget {
               ),
               title: Text(
                 'Help',
-                style:
-                TextStyle(fontSize: drawerFontSize, color: Colors.white),
+                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
               ),
             ),
           ),
@@ -196,8 +204,7 @@ class UnnotiDrawer extends StatelessWidget {
               ),
               title: Text(
                 'Logout',
-                style:
-                TextStyle(fontSize: drawerFontSize, color: Colors.white),
+                style: TextStyle(fontSize: drawerFontSize, color: Colors.white),
               ),
             ),
           ),

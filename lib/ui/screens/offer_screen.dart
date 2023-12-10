@@ -10,19 +10,18 @@ import '../widgets/screen_background.dart';
 import '../widgets/unnoti_appbar.dart';
 import '../widgets/unnoti_drawer.dart';
 
-class ProductPointViewScreen extends StatefulWidget {
-  const ProductPointViewScreen({Key? key,}) : super(key: key);
+class OfferScreen extends StatefulWidget {
+  const OfferScreen({Key? key,}) : super(key: key);
 
 
   @override
-  State<ProductPointViewScreen> createState() => _ProductPointViewScreenState();
+  State<OfferScreen> createState() => _OfferScreenState();
 }
 
-class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
+class _OfferScreenState extends State<OfferScreen> {
 
   Map? valueMap;
   List<dynamic>? productList;
-  List<dynamic>? filteredList;
   bool inProgress = false;
 
   getProfileData(int id) async {
@@ -41,7 +40,7 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
     valueMap = jsonDecode(response.body);
 
     final http.Response res = await http.get(
-      Uri.parse(Urls.productPointUrl), //for profile check
+      Uri.parse(Urls.offerUrl), //for profile check
       headers: {
         "Content-Type": "application/json",
         'Authorization': 'Token ${AuthUtils.token}'
@@ -51,7 +50,6 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
     log(res.body);
     productList = json.decode(res.body).cast<dynamic>();
     log(productList!.length.toString());
-    filteredList = productList;
 
     inProgress = false;
     setState(() {});
@@ -90,49 +88,40 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
-                    height: 35,
-                    child: TextFormField(
-                      onChanged: (value)
-                      {
-                        setState(() {
-                          filteredList = productList!
-                              .where((item) =>
-                              item['title'].toLowerCase().contains(value.toLowerCase()))
-                              .toList();
-                        });
-                      },
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        hintText: 'Search',
-                        prefixIcon: InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.search,
-                            color: Colors.purple,
-                            size: 25,
-                          ),
-                        ),
-                        suffixIcon: InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.mic,
-                            color: Colors.purple,
-                            size: 25,
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white54,
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 35,
+                  //   child: TextFormField(
+                  //     decoration: InputDecoration(
+                  //       contentPadding: const EdgeInsets.only(top: 10),
+                  //       hintText: 'Search',
+                  //       prefixIcon: InkWell(
+                  //         onTap: () {},
+                  //         child: const Icon(
+                  //           Icons.search,
+                  //           color: Colors.grey,
+                  //           size: 25,
+                  //         ),
+                  //       ),
+                  //       suffixIcon: InkWell(
+                  //         onTap: () {},
+                  //         child: const Icon(
+                  //           Icons.mic,
+                  //           color: Colors.grey,
+                  //           size: 25,
+                  //         ),
+                  //       ),
+                  //       filled: true,
+                  //       fillColor: Colors.white54,
+                  //       border: InputBorder.none,
+                  //       enabledBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(8.0),
+                  //       ),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(8.0),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -152,7 +141,7 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
                         child: Column(
                           children: [
                             const Text(
-                              'Product Redeem Point',
+                              'UNNOTI OFFER',
                               style: TextStyle(
                                   fontSize: 24,
                                   color: Color(0xff404040),
@@ -164,7 +153,7 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
                             Expanded(
                               child: ListView.builder(
                                 physics: const BouncingScrollPhysics(),
-                                itemCount: filteredList!.length,
+                                itemCount: productList!.length,
                                 itemBuilder: (context, index) => Card(
                                   color: const Color(0xffE6E0F4),
                                   shape: RoundedRectangleBorder(
@@ -176,9 +165,9 @@ class _ProductPointViewScreenState extends State<ProductPointViewScreen> {
                                     child: ListTile(
 
                                       title: Text(
-                                          filteredList![index]['title']),
+                                          productList![index]['message']),
                                       // subtitle: Text(productList![index]['description']),
-                                     trailing: Text(filteredList![index]['point']),
+                                     //trailing: Text(productList![index]['point']),
                                     ),
                                   ),
                                 ),

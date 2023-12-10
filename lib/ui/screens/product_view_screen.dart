@@ -116,7 +116,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                                 onTap: () {},
                                 child: const Icon(
                                   Icons.search,
-                                  color: Colors.grey,
+                                  color: Colors.purple,
                                   size: 25,
                                 ),
                               ),
@@ -124,7 +124,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                                 onTap: () {},
                                 child: const Icon(
                                   Icons.mic,
-                                  color: Colors.grey,
+                                  color: Colors.purple,
                                   size: 25,
                                 ),
                               ),
