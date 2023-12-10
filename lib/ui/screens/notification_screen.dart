@@ -34,7 +34,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         'Authorization': 'Token ${AuthUtils.token}'
       },
     );
-    valueMap = jsonDecode(response.body);
+    valueMap = jsonDecode(utf8.decode(response.bodyBytes));
 
     final http.Response res = await http.get(
       Uri.parse(Urls.notificationUrl), //for profile check

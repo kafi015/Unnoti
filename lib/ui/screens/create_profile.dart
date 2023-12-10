@@ -193,7 +193,7 @@ class _CreateProfileState extends State<CreateProfile> {
                                     log(response.body);
                                     if (response.statusCode == 200) {
                                       log(response.body);
-                                      Map valueMap = jsonDecode(response.body);
+                                      Map valueMap = jsonDecode(utf8.decode(response.bodyBytes));
                                       //print(valueMap);
                                       //  print(valueMap['otp']);
                                       AuthUtils.saveUserData(widget.token, widget.phoneNumber, valueMap['id']);

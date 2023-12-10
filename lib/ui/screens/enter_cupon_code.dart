@@ -48,7 +48,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
         'Token ${AuthUtils.token}'
       },
     );
-    profileMap = jsonDecode(response.body);
+    profileMap = jsonDecode(utf8.decode(response.bodyBytes));
     inProgress = false;
     setState(() {});
   }
@@ -183,7 +183,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                                       log(response.body);
                                       if(response.statusCode == 200)
                                         {
-                                          Map valueMap = jsonDecode(response.body);
+                                          Map valueMap = jsonDecode(utf8.decode(response.bodyBytes));
                                           showAlertDialog(context,valueMap['message']);
 
                                           inProgressCuponSubmit = false;
@@ -191,7 +191,7 @@ class _EnterCuponCodeState extends State<EnterCuponCode> {
                                         }
                                       else if(response.statusCode == 400)
                                       {
-                                        Map valueMap = jsonDecode(response.body);
+                                        Map valueMap = jsonDecode(utf8.decode(response.bodyBytes));
                                         showAlertDialog(context,valueMap['message']);
 
                                         inProgressCuponSubmit = false;

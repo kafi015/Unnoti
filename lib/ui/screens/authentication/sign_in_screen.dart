@@ -172,7 +172,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                                           //print(response.statusCode);
                                           log(response.body);
-                                          Map valueMap = jsonDecode(response.body);
+                                          Map valueMap = jsonDecode(utf8.decode(response.bodyBytes));
                                           if (response.statusCode == 200) {
                                             try {
                                               final http.Response res =
@@ -188,7 +188,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                               );
                                               log(res.statusCode.toString());
                                               log(res.body);
-                                              Map vMap = jsonDecode(res.body);
+                                              Map vMap = jsonDecode(utf8.decode(res.bodyBytes));
 
                                               if (res.statusCode == 200) {
                                                 //print(vMap['id']);

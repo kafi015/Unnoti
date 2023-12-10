@@ -184,7 +184,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
 
                                                 if (response.statusCode == 201) {
                                                   log(response.body);
-                                                  Map valueMap = jsonDecode(response.body);
+                                                  Map valueMap = jsonDecode(utf8.decode(response.bodyBytes));
                                                   //print(valueMap);
                                                   //  print(valueMap['otp']);
 

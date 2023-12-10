@@ -21,7 +21,7 @@ class OfferScreen extends StatefulWidget {
 class _OfferScreenState extends State<OfferScreen> {
 
   Map? valueMap;
-  List<dynamic>? productList;
+  List<dynamic>? offerList;
   bool inProgress = false;
 
   getProfileData(int id) async {
@@ -37,7 +37,7 @@ class _OfferScreenState extends State<OfferScreen> {
         'Authorization': 'Token ${AuthUtils.token}'
       },
     );
-    valueMap = jsonDecode(response.body);
+    valueMap = jsonDecode(utf8.decode(response.bodyBytes));
 
     final http.Response res = await http.get(
       Uri.parse(Urls.offerUrl), //for profile check
@@ -48,8 +48,8 @@ class _OfferScreenState extends State<OfferScreen> {
     );
 
     log(res.body);
-    productList = json.decode(res.body).cast<dynamic>();
-    log(productList!.length.toString());
+    offerList = jsonDecode(utf8.decode(res.bodyBytes)).cast<dynamic>();
+    log(offerList!.length.toString());
 
     inProgress = false;
     setState(() {});
@@ -153,7 +153,7 @@ class _OfferScreenState extends State<OfferScreen> {
                             Expanded(
                               child: ListView.builder(
                                 physics: const BouncingScrollPhysics(),
-                                itemCount: productList!.length,
+                                itemCount: offerList!.length,
                                 itemBuilder: (context, index) => Card(
                                   color: const Color(0xffE6E0F4),
                                   shape: RoundedRectangleBorder(
@@ -165,7 +165,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                     child: ListTile(
 
                                       title: Text(
-                                          productList![index]['message']),
+                                          offerList![index]['message']),
                                       // subtitle: Text(productList![index]['description']),
                                      //trailing: Text(productList![index]['point']),
                                     ),

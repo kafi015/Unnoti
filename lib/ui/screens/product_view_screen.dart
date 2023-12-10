@@ -43,7 +43,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
         'Authorization': 'Token ${AuthUtils.token}'
       },
     );
-    valueMap = jsonDecode(response.body);
+    valueMap = jsonDecode(utf8.decode(response.bodyBytes));
 
     final http.Response res = await http.get(
       Uri.parse(Urls.productUrl), //for profile check

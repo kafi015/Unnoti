@@ -46,37 +46,29 @@ class _SplashScreenState extends State<SplashScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return UpgradeAlert(
-      upgrader: Upgrader(
-        canDismissDialog: false,
-        showIgnore: false,
-        showLater: false,
-        showReleaseNotes: false,
-      ),
-      child: Scaffold(
+    return Scaffold(
 
-        body: ScreenBackground(
-          backgroundImage: 'assets/splash_background.png',
-          widget: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: height * 0.7,
-                ),
-                // inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):
+      body: ScreenBackground(
+        backgroundImage: 'assets/splash_background.png',
+        widget: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: height * 0.7,
+              ),
+              // inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):
 
-                AppElevatedButton(
-                  text: 'Get Started',
-                  color: const Color(0xff8359e3),
-                  onPressed: () {
-                    Get.to(const SignInScreen());
-                  },
-                ),
-              ],
-            ),
+              AppElevatedButton(
+                text: 'Get Started',
+                color: const Color(0xff8359e3),
+                onPressed: () {
+                  Get.to(const SignInScreen());
+                },
+              ),
+            ],
           ),
         ),
       ),

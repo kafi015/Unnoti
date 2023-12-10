@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
     if(response.statusCode == 200)
       {
-        Map valueMap = jsonDecode(response.body);
+        Map valueMap = jsonDecode(utf8.decode(response.bodyBytes));
 
         nameETController.text = valueMap['name'];
         phoneETController.text = AuthUtils.phoneNumber!;

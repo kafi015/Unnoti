@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       );
       log(response.body);
-      valueMap = jsonDecode(response.body);
+      valueMap = jsonDecode(utf8.decode(response.bodyBytes));
 
       /// Get recharge history
 

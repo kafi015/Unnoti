@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unnoti/ui/screens/splash_screen.dart';
 import 'package:get/get.dart';
+import 'package:upgrader/upgrader.dart';
 
 import 'data/network_connectivity_check/network_check_controller.dart';
 
@@ -29,7 +30,14 @@ class _UnnotiState extends State<Unnoti> {
         fontFamily: 'Montserrat'
       ),
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: UpgradeAlert(
+          upgrader: Upgrader(
+            canDismissDialog: true,
+            showIgnore: false,
+            showLater: false,
+            showReleaseNotes: false,
+          ),
+          child: const SplashScreen()),
       initialBinding: GetxBinding(),
     );
 
