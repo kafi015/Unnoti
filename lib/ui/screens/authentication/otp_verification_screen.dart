@@ -82,7 +82,7 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                             ),
                             AppTextFormField(
                               hintText: 'Enter OTP',
-                              color: const Color(0xffF5F5F5),
+                              color:  Colors.grey.shade300,
                               controller: otpETController,
                               validator: (value) {
                                 if (

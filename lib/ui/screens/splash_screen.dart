@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unnoti/data/auth_utils.dart';
 import 'package:unnoti/ui/screens/home_screen.dart';
-import 'package:upgrader/upgrader.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/screen_background.dart';
 import 'authentication/sign_in_screen.dart';

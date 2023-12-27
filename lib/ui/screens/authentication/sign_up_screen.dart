@@ -90,7 +90,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                             AppTextFormField(
                               hintText: 'Enter Phone number',
                               keyBoardType: TextInputType.number,
-                              color: const Color(0xffF5F5F5),
+                              color:  Colors.grey.shade300,
                               controller: phoneETController,
                               validator: (value) {
                                 if (value?.isEmpty ?? true) {
@@ -107,7 +107,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                             ),
                             AppTextFormField(
                               hintText: 'Enter Password',
-                              color: const Color(0xffF5F5F5),
+                              color:  Colors.grey.shade300,
                               controller: passwordETController,
                               validator: (value) {
                                 if (
@@ -123,7 +123,7 @@ class _SignUPScreenState extends State<SignUPScreen> {
                             ),
                             AppTextFormField(
                               hintText: 'Confirm Password',
-                              color: const Color(0xffF5F5F5),
+                              color:  Colors.grey.shade300,
                               controller: confirmpassETController,
                               validator: (value) {
                                 if ((value?.isEmpty ?? true) &&

@@ -60,7 +60,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: height * 0.2,
                   ),
                   SizedBox(
-                    height: 430,
+                    height: 440,
                     width: double.infinity,
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -86,7 +86,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                             AppTextFormField(
                               hintText: 'Enter Phone number',
-                              color: const Color(0xffF5F5F5),
+                              color:  Colors.grey.shade300,
                               controller: phoneETController,
                               keyBoardType: TextInputType.number,
                               validator: (value) {
@@ -124,7 +124,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                               ),
                               hintText: 'Enter Password',
-                              color: const Color(0xffF5F5F5),
+                              color:  Colors.grey.shade300,
                               controller: passwordETController,
                               obscureText: _passVisibility,
                               validator: (value) {
@@ -260,7 +260,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               height: height * 0.02,
                             ),
                             const Divider(
-                              color: Colors.grey,
+                              color: Colors.black,
                               thickness: 1,
                             ),
                             const SizedBox(
@@ -279,7 +279,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Text(
-                                  'New ?',
+                                  'New?',
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: Color(0xff4D4D4D),

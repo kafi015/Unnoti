@@ -14,7 +14,7 @@ class ActivityCard extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         height: 130,
-        width: 100,
+        width: 105,
         child: Card(
           color: const Color(0xffE6E0F4),
           shape: RoundedRectangleBorder(

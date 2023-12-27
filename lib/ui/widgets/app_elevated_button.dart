@@ -26,11 +26,11 @@ class AppElevatedButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(text,style: const TextStyle(fontSize: 14),),
+            Text(text,style: const TextStyle(fontSize: 14,color: Colors.white),),
             const SizedBox(
               width: 5,
             ),
-            text == 'Get Started' ? const Icon(Icons.chevron_right) : const SizedBox(),
+            text == 'Get Started' ? const Icon(Icons.chevron_right,color: Colors.white,) : const SizedBox(),
           ],
         ),
       ),

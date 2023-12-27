@@ -45,7 +45,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
 
     log(res.body);
-    productList = json.decode(res.body).cast<dynamic>();
+    productList = json.decode(utf8.decode(res.bodyBytes)).cast<dynamic>();
     // productList = pproductList!.reversed.toList();
     //print(productList);
 

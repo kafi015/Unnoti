@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:unnoti/data/auth_utils.dart';
+import 'package:unnoti/ui/screens/certificate.dart';
 import 'package:unnoti/ui/screens/enter_lottery_cupon.dart';
 import 'package:unnoti/ui/screens/gallery_deatails_view.dart';
+import 'package:unnoti/ui/screens/insurance_screen.dart';
+import 'package:unnoti/ui/screens/lead_graph.dart';
 import 'package:unnoti/ui/screens/product_view_screen.dart';
 import 'package:unnoti/ui/widgets/app_elevated_button.dart';
 import 'package:unnoti/ui/widgets/screen_background.dart';
@@ -30,7 +33,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Map? valueMap;
   List<dynamic>? rechargelogList;
-  List<dynamic>? gellaryList;
+  List<dynamic>? galleryList;
   List<dynamic>? addressList;
   List<dynamic>? paidPointList;
   List<dynamic>? rechargeHistoryList;
@@ -99,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
 
       log(responseGellary.body);
-      gellaryList = json.decode(responseGellary.body).cast<dynamic>();
+      galleryList = json.decode(responseGellary.body).cast<dynamic>();
 
       ///Get Address
 
@@ -132,8 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => _onBackButtonPress(context),
+    return PopScope(
+      onPopInvoked: (value) => _onBackButtonPress(context),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         drawer: const UnnotiDrawer(),
@@ -205,10 +208,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 20,
+                                    height: 15,
                                   ),
                                   Container(
-                                    height: 100,
+                                    height: 110,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: const Color(0xff783a9d),
@@ -289,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 30,
+                                    height: 15,
                                   ),
                                   Row(
                                     children: [
@@ -345,25 +348,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                           image:
                                               'assets/lead_activity_icon.png',
                                           title: 'Lead',
-                                          onTap: () {},
+                                          onTap: () {
+                                            Get.to(const LeadGraphScreen());
+                                          },
                                         ),
                                         ActivityCard(
                                           image:
                                               'assets/certificate_activity_icon.png',
                                           title: 'Certificate',
-                                          onTap: () {},
+                                          onTap: () {
+                                            Get.to(const CertificateViewScreen());
+                                          },
                                         ),
                                         ActivityCard(
                                           image:
                                               'assets/insurance_activity_icon.png',
                                           title: 'Insurance',
-                                          onTap: () {},
+                                          onTap: () {
+                                            Get.to(const InsurenceScreen());
+                                          },
                                         ),
                                       ],
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 30,
+                                    height: 15,
                                   ),
                                   AppElevatedButton(
                                     text: 'Product View',
@@ -403,7 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             onPageChanged: (index, _) {
                                               _sliderIndex.value = index;
                                             }),
-                                        items: gellaryList!.map((slider) {
+                                        items: galleryList!.map((slider) {
                                           return Builder(
                                             builder: (BuildContext context) {
                                               return InkWell(
@@ -457,7 +466,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 10,
                                   ),
                                   Container(
-                                    height: 105,
+                                    height: 120,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: const Color(0xff976eee),
@@ -510,7 +519,7 @@ Future<bool> _onBackButtonPress(BuildContext context) async {
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: const Text('No')),
+                child: const Text('No',style: TextStyle(color: Colors.white),)),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
@@ -518,7 +527,7 @@ Future<bool> _onBackButtonPress(BuildContext context) async {
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: const Text('Yes')),
+                child: const Text('Yes',style: TextStyle(color: Colors.white),)),
             // TextButton(onPressed: (){
             //   Navigator.of(context).pop(false);
             // }, child: Text('No')),

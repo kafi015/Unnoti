@@ -18,5 +18,7 @@ class Urls {
   static String addressUrl = '${baseUrl}address/';
   static String helpUrl = '${baseUrl}help/';
   static String offerUrl = '${baseUrl}offer/';
+  static String certificateUrl = '${baseUrl}certificate/';
+  static String insuranceUrl = '${baseUrl}insurance/';
   static String profileByIDUrl(int id) => '${baseUrl}profile/$id';
 }

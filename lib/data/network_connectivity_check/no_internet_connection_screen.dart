@@ -8,8 +8,8 @@ class NoInternetConnectionScreen extends GetView {
   @override
   Widget build(BuildContext context) {
     //Config().init(context);
-    return WillPopScope(
-      onWillPop: () => Future(() => false),
+    return PopScope(
+      onPopInvoked: (value) => Future(() => false),
       child: const Scaffold(
           //  backgroundColor: Theme.of(context).colorScheme.background,
           body: SafeArea(

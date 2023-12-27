@@ -27,7 +27,8 @@ class _UnnotiState extends State<Unnoti> {
   Widget build(BuildContext context) {
     return  GetMaterialApp(
       theme: ThemeData(
-        fontFamily: 'Montserrat'
+        fontFamily: 'Montserrat',
+
       ),
       debugShowCheckedModeBanner: false,
       home: UpgradeAlert(
