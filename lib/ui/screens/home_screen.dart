@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       log(responseRecharge.body);
       rechargelogList = json.decode(responseRecharge.body).cast<dynamic>();
 
-      //print(rechargelogList);
+      log(rechargelogList.toString());
 
       if (rechargelogList!.isNotEmpty) {
         log('hello1');
@@ -83,14 +83,14 @@ class _HomeScreenState extends State<HomeScreen> {
         rechargeHistoryList =
             rechargelogList!.where((e) => e["key"] != 'Points Paid').toList();
         log('hello2');
-        lastEarnedPoint = rechargeHistoryList!.last['value'].toString();
+        lastEarnedPoint = rechargeHistoryList!.isEmpty? null: rechargeHistoryList!.last['value'].toString();
         //print(paidPointList);
         log('hello3');
-        lastPaymentDate =
-            paidPointList!.last['date'].toString().split('T').first;
+        lastPaymentDate = paidPointList!.isEmpty? null:paidPointList!.last['date'].toString().split('T').first;
+        log('After lastPaymentDate');
         //print(notPaidPointList);
       }
-
+      log('Before gellary api hit');
       ///Get gellary
 
       final http.Response responseGellary = await http.get(
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'Authorization': 'Token ${AuthUtils.token}'
         },
       );
-
+      log('Kafi KAfi Kafi kafi kaf');
       log(responseGellary.body);
       galleryList = json.decode(responseGellary.body).cast<dynamic>();
 
