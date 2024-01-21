@@ -8,7 +8,6 @@ import 'package:unnoti/data/auth_utils.dart';
 
 import '../../data/services/urls.dart';
 import '../widgets/screen_background.dart';
-import '../widgets/unnoti_appbar.dart';
 import '../widgets/unnoti_drawer.dart';
 
 class InsurenceScreen extends StatefulWidget {

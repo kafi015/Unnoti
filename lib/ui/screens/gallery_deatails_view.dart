@@ -3,10 +3,7 @@ import 'package:get/get.dart';
 import 'package:unnoti/ui/widgets/screen_background.dart';
 
 class GellaryDetailsView extends StatelessWidget {
-  const GellaryDetailsView(
-      {Key? key,
-      required this.title,
-      required this.image})
+  const GellaryDetailsView({Key? key, required this.title, required this.image})
       : super(key: key);
 
   final String title;
@@ -22,9 +19,10 @@ class GellaryDetailsView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
-                const SizedBox(height: 30,),
+                const SizedBox(
+                  height: 30,
+                ),
                 TextButton(
                     onPressed: () {
                       Get.back();
@@ -47,7 +45,9 @@ class GellaryDetailsView extends StatelessWidget {
                         ),
                       ],
                     )),
-                const SizedBox(height: 50,),
+                const SizedBox(
+                  height: 50,
+                ),
                 Text(
                   title,
                   style: const TextStyle(
@@ -55,11 +55,15 @@ class GellaryDetailsView extends StatelessWidget {
                       color: Color(0xff404040),
                       fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(height: 40,),
+                const SizedBox(
+                  height: 40,
+                ),
                 Center(
                   child: Image.network('https://abdulazizhardware.com$image'),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 // const Text(
                 //   'Description : ',
                 //   style: TextStyle(

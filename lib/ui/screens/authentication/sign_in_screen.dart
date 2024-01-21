@@ -13,6 +13,7 @@ import 'package:unnoti/ui/widgets/screen_background.dart';
 
 import '../../../data/services/urls.dart';
 import '../create_profile.dart';
+import 'enter_numer_for_send_otp_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -170,7 +171,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                                                 .text
                                                       }));
 
-                                          //print(response.statusCode);
+                                          log(response.statusCode.toString());
                                           log(response.body);
                                           Map valueMap = jsonDecode(utf8.decode(response.bodyBytes));
                                           if (response.statusCode == 200) {
@@ -267,7 +268,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               height: 5,
                             ),
                             TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.to(const EnterNumberForSendOTPScreen());
+                                },
                                 child: const Text(
                                   'Forget Password ?',
                                   style: TextStyle(

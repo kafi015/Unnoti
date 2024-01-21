@@ -170,6 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  const SizedBox(height: 10,),
                                   SizedBox(
                                     height: 35,
                                     child: TextFormField(
@@ -349,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               'assets/lead_activity_icon.png',
                                           title: 'Lead',
                                           onTap: () {
-                                            Get.to(const LeadGraphScreen());
+                                            Get.to( const LeadGraphScreen());
                                           },
                                         ),
                                         ActivityCard(

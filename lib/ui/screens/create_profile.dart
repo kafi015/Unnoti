@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -38,7 +37,7 @@ class _CreateProfileState extends State<CreateProfile> {
 
   bool inProgress = false;
 
-   XFile? pickedImage;
+  XFile? pickedImage;
   // File? imageFile;
   // String? base64Image;
 
@@ -84,7 +83,8 @@ class _CreateProfileState extends State<CreateProfile> {
                     child: Stack(
                       children: [
                         CircleAvatar(
-                          backgroundImage: AssetImage('assets/example_profile.png'),
+                          backgroundImage:
+                              AssetImage('assets/example_profile.png'),
                           radius: 60,
                         ),
                         // Positioned(
@@ -168,62 +168,74 @@ class _CreateProfileState extends State<CreateProfile> {
                             SizedBox(
                               height: height * 0.02,
                             ),
-                            inProgress? const Center(child: CircularProgressIndicator(color: Color(0xFF8359E3),),):AppElevatedButton(
-                              text: 'Create Profile',
-                              color: const Color(0xff8359E3),
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
+                            inProgress
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Color(0xFF8359E3),
+                                    ),
+                                  )
+                                : AppElevatedButton(
+                                    text: 'Create Profile',
+                                    color: const Color(0xff8359E3),
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        try {
+                                          inProgress = true;
+                                          setState(() {});
 
+                                          final http.Response response =
+                                              await http.post(
+                                                  Uri.parse(Urls.profileUrl),
+                                                  headers: {
+                                                    "Content-Type":
+                                                        "application/json",
+                                                    "Authorization":
+                                                        "Token ${widget.token}",
+                                                  },
+                                                  body: jsonEncode({
+                                                    'name':
+                                                        nameETController.text,
+                                                    'nid': nidETController.text,
+                                                    'address':
+                                                        addressETController
+                                                            .text,
+                                                    // 'image' : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ficonscout.com%2Ffree-icon%2Fperson-1780868&psig=AOvVaw3xih8gOuD2HSo6XIUN4vrH&ust=1697729803975000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJiW-sD2_4EDFQAAAAAdAAAAABAJ'
+                                                  }));
 
-                                  try {
-                                    inProgress = true;
-                                    setState(() {});
-
-                                    final http.Response response = await http.post(Uri.parse(Urls.profileUrl),
-                                        headers: {"Content-Type": "application/json", "Authorization" : "Token ${widget.token}",},
-                                        body: jsonEncode({
-                                          'name': nameETController.text,
-                                          'nid': nidETController.text,
-                                          'address': addressETController.text,
-                                         // 'image' : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ficonscout.com%2Ffree-icon%2Fperson-1780868&psig=AOvVaw3xih8gOuD2HSo6XIUN4vrH&ust=1697729803975000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJiW-sD2_4EDFQAAAAAdAAAAABAJ'
-                                        }));
-
-
-                                     log(response.statusCode.toString());
-                                    log(response.body);
-                                    if (response.statusCode == 200) {
-                                      log(response.body);
-                                      Map valueMap = jsonDecode(utf8.decode(response.bodyBytes));
-                                      //print(valueMap);
-                                      //  print(valueMap['otp']);
-                                      AuthUtils.saveUserData(widget.token, widget.phoneNumber, valueMap['id']);
-                                      Get.offAll(const HomeScreen());
-
-                                    }
-                                    else {
-                                      log(response.statusCode.toString());
-                                      log("Something went wrong");
-                                      Get.snackbar(
-                                        "Error!",
-                                        "Failed Create profile",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red,
-                                        colorText: Colors.white,
-                                        snackStyle: SnackStyle.FLOATING,
-
-                                      );
-                                    }
-                                    inProgress = false;
-                                    setState(() {});
-                                  } catch (e) {
-                                    log('Error $e');
-                                  }
-
-                                }
-
-
-                              },
-                            ),
+                                          log(response.statusCode.toString());
+                                          log(response.body);
+                                          if (response.statusCode == 200) {
+                                            log(response.body);
+                                            Map valueMap = jsonDecode(utf8
+                                                .decode(response.bodyBytes));
+                                            //print(valueMap);
+                                            //  print(valueMap['otp']);
+                                            AuthUtils.saveUserData(
+                                                widget.token,
+                                                widget.phoneNumber,
+                                                valueMap['id']);
+                                            Get.offAll(const HomeScreen());
+                                          } else {
+                                            log(response.statusCode.toString());
+                                            log("Something went wrong");
+                                            Get.snackbar(
+                                              "Error!",
+                                              "Failed Create profile",
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              backgroundColor: Colors.red,
+                                              colorText: Colors.white,
+                                              snackStyle: SnackStyle.FLOATING,
+                                            );
+                                          }
+                                          inProgress = false;
+                                          setState(() {});
+                                        } catch (e) {
+                                          log('Error $e');
+                                        }
+                                      }
+                                    },
+                                  ),
                           ],
                         ),
                       ),
@@ -237,43 +249,43 @@ class _CreateProfileState extends State<CreateProfile> {
       ),
     );
   }
+
   void pickImage(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                onTap: () async {
-                  pickedImage = await ImagePicker()
-                      .pickImage(source: ImageSource.camera);
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    onTap: () async {
+                      pickedImage = await ImagePicker()
+                          .pickImage(source: ImageSource.camera);
 
-                  if (pickedImage != null) {
-                    setState(() {});
-                  }
+                      if (pickedImage != null) {
+                        setState(() {});
+                      }
 
+                      Navigator.pop(Unnoti.globalKey.currentContext!);
+                    },
+                    leading: const Icon(Icons.camera),
+                    title: const Text('Camera'),
+                  ),
+                  ListTile(
+                    onTap: () async {
+                      pickedImage = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
 
-                  Navigator.pop(Unnoti.globalKey.currentContext!);
-                },
-                leading: const Icon(Icons.camera),
-                title: const Text('Camera'),
+                      if (pickedImage != null) {
+                        setState(() {});
+                      }
+                      Navigator.pop(Unnoti.globalKey.currentContext!);
+                    },
+                    leading: const Icon(Icons.image),
+                    title: const Text('Gallery'),
+                  ),
+                ],
               ),
-              ListTile(
-                onTap: () async {
-                  pickedImage = await ImagePicker()
-                      .pickImage(source: ImageSource.gallery);
-
-                  if (pickedImage != null) {
-                    setState(() {});
-                  }
-                  Navigator.pop(Unnoti.globalKey.currentContext!);
-                },
-                leading: const Icon(Icons.image),
-                title: const Text('Gallery'),
-              ),
-            ],
-          ),
-        ));
+            ));
   }
 }

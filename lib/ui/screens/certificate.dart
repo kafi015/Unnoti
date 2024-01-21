@@ -103,14 +103,14 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                                 height: 10,
                               ),
                               const Center(
-                                  child: Text(
-                                'CERTIFICATE',
-                                style: TextStyle(
-                                    letterSpacing: 2,
-                                    fontSize: 24,
-                                    color: Color(0xff404040),
-                                    fontWeight: FontWeight.w600),
-                                  ),
+                                child: Text(
+                                  'CERTIFICATE',
+                                  style: TextStyle(
+                                      letterSpacing: 2,
+                                      fontSize: 24,
+                                      color: Color(0xff404040),
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
                               Expanded(
                                 child: ListView.builder(
@@ -123,7 +123,8 @@ class _CertificateViewScreenState extends State<CertificateViewScreen> {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                       image: NetworkImage(
-                                          'https://abdulazizhardware.com${productList![index]['image']}'),
+                                        'https://abdulazizhardware.com${productList![index]['image']}',
+                                      ),
                                     )),
                                   ),
                                 ),

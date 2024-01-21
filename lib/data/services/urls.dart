@@ -4,6 +4,7 @@
 
 class Urls {
   static String baseUrl = 'https://abdulazizhardware.com/api/';
+  static String baseUrl1 = 'https://abdulazizhardware.com/';
   static String registrationUrl = '${baseUrl}register/';
   static String verigyOTPUrl = '${baseUrl}verify-otp/';
   static String logInUrl = '${baseUrl}login/';
@@ -20,5 +21,8 @@ class Urls {
   static String offerUrl = '${baseUrl}offer/';
   static String certificateUrl = '${baseUrl}certificate/';
   static String insuranceUrl = '${baseUrl}insurance/';
+  static String sendResetPasswordOtpUrl = '${baseUrl1}send-reset-password-otp/';
+  static String verifyResetPasswordOtp = '${baseUrl1}verify-reset-password-otp/';
+  static String resetPassword = '${baseUrl1}reset-password/';
   static String profileByIDUrl(int id) => '${baseUrl}profile/$id';
 }
