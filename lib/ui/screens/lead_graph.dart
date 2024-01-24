@@ -22,29 +22,96 @@ class _LeadGraphScreenState extends State<LeadGraphScreen> {
   List<dynamic>? productList;
   bool inProgress = false;
   double point = 0;
+  String dateInList = '';
+  List<dynamic> xValueSample = [];
+  List<dynamic> yValueSample = [];
+
+  static List<dynamic> xValue = [];
+  static List<dynamic> yValue = [];
 
   getRechargeLog() async {
     inProgress = true;
     setState(() {});
 
-    final http.Response res = await http.get(
-      Uri.parse(Urls.rechargeLogUrl),
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': 'Token ${AuthUtils.token}'
-      },
-    );
+    try {
+      final http.Response res = await http.get(
+        Uri.parse(Urls.rechargeLogUrl),
+        headers: {
+          "Content-Type": "application/json",
+           'Authorization': 'Token ${AuthUtils.token}'
+          // 'Authorization': 'Token 7ffc5f9aff892a14542a042ef8e3fda7477028c2'
+        },
+      );
 
-    //  log(res.body);
-    rechargeLog = json.decode(res.body).cast<dynamic>();
+      //  log(res.body);
+      rechargeLog = json.decode(res.body).cast<dynamic>();
 
-    log(rechargeLog.toString());
+      log(rechargeLog.toString());
+      log(rechargeLog!.length.toString());
+
+      for (int i = 0; i < rechargeLog!.length; i++) {
+        log('Show for index ${i.toString()}');
+        if (rechargeLog![i]['key'] == 'Points Paid') {
+          /// For Point
+          log(rechargeLog![i]['value'].toString());
+          int x = rechargeLog![i]['value'];
+          log('show x:  $x');
+          point -= x;
+          log('show point:  $point');
+
+          /// For Date
+          log(rechargeLog![i]['date'].toString());
+          dateInList = rechargeLog![i]['date'];
+          log('show dateInList:  $dateInList');
+          // String date1 = date.split('T').first.toString();
+          // log('show date1:  ${date1}');
+          //
+          // dateInList = date1.split('-').toList();
+          // log('show dateInList:  ${dateInList}');
+        } else {
+          /// For Point
+          log(rechargeLog![i]['value'].toString());
+          int x = rechargeLog![i]['value'];
+          log('show x:  $x');
+          point += x;
+          log('show point:  $point');
+
+          /// For Date
+          log(rechargeLog![i]['date'].toString());
+          dateInList = rechargeLog![i]['date'];
+          log('show dateInList:  $dateInList');
+
+          // /// For Date
+          // log(rechargeLog![i]['date'].toString());
+          // String date = rechargeLog![i]['date'];
+          // log('show date:  ${date}');
+          // String date1 = date.split('T').first.toString();
+          // log('show date1:  ${date1}');
+          //
+          // dateInList = date1.split('-').toList();
+          // log('show dateInList:  ${dateInList}');
+          // point -= x;
+          // log('show point:  ${point}');
+        }
+
+        xValueSample.add(dateInList);
+        log('show xValueSample:  $xValueSample');
+
+        yValueSample.add(point);
+        log('show yValueSample:  $yValueSample');
+      }
+
+      xValue = xValueSample;
+      yValue = yValueSample;
+      log('show xValue:  $xValue');
+      log('show yValue:  $yValue');
+    } catch (e) {
+      log('Catch Block Error: $e');
+    }
 
     inProgress = false;
     setState(() {});
   }
-
-
 
   @override
   void initState() {
@@ -59,74 +126,92 @@ class _LeadGraphScreenState extends State<LeadGraphScreen> {
       body: ScreenBackground(
         backgroundImage: 'assets/home_background.png',
         widget: SingleChildScrollView(
-          child:  Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 100,
+              ),
+              TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Text(
+                    'Back',
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.red,
                     ),
-                    TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: const Text(
-                          'Back',
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.red,
-                          ),
-                        )),
-                    inProgress?const SizedBox(
+                  )),
+              inProgress
+                  ? const SizedBox(
                       height: 300,
-                    ):const SizedBox(
-                      height: 100,
+                    )
+                  : const SizedBox(
+                      height: 50,
                     ),
-                     Center(
-                      child: inProgress
-                          ? const Center(
+              Center(
+                child: inProgress
+                    ? const Center(
                         child: CircularProgressIndicator(
                           color: Color(0xFF8359E3),
                         ),
                       )
-                          :SizedBox(
-                        height: 500,
-                        child: _MyHomePage(),
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: SizedBox(
+                          height: 700,
+                          width: 3000,
+                          child: _GraphPage(),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 100,
-                    ),
-                  ],
-                ),
+              ),
+              const SizedBox(
+                height: 100,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-
-class _MyHomePage extends StatefulWidget {
+class _GraphPage extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
-  _MyHomePage({Key? key}) : super(key: key);
+  _GraphPage({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _GraphPageState createState() => _GraphPageState();
 }
 
-class _MyHomePageState extends State<_MyHomePage> {
-  late List<_ChartData> data;
+class _GraphPageState extends State<_GraphPage> {
+  List<_ChartData> data = [];
   late TooltipBehavior _tooltip;
+  double max = 0;
 
   @override
   void initState() {
-    data = [
-      _ChartData('CHN', 12),
-      _ChartData('GER', 15),
-      _ChartData('RUS', 30),
-      _ChartData('BRZ', 6.4),
-      _ChartData('IND', 14)
-    ];
+    log(' _LeadGraphScreenState.xValue:   ${_LeadGraphScreenState.xValue}');
+    log(' _LeadGraphScreenState.yValue:   ${_LeadGraphScreenState.yValue}');
+
+    for (int i = 0; i < _LeadGraphScreenState.xValue.length; i++) {
+      data.add(_ChartData(DateTime.parse(_LeadGraphScreenState.xValue[i]),
+          _LeadGraphScreenState.yValue[i]));
+
+      log('${_LeadGraphScreenState.xValue[i]} ===== ${_LeadGraphScreenState.yValue[i]} ');
+      max = _LeadGraphScreenState.yValue[i]>max? _LeadGraphScreenState.yValue[i]: max;
+    }
+
+    // data = [
+    //   _ChartData(DateTime.parse("2023-12-28T02:29:59.927917+06:00"), 12),
+    //   _ChartData(DateTime.parse("2023-12-28T12:56:21.158077+06:00"), 70),
+    // //  //  _ChartData(DateTime(2023, 02, 01), 15),
+    // //  //  _ChartData(DateTime(2023, 03, 01), 30),
+    // //  //  _ChartData(DateTime(2023, 04, 01), 6.4),
+    // //  //  _ChartData(DateTime(2023, 05, 01), 14)
+    // ];
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -135,19 +220,21 @@ class _MyHomePageState extends State<_MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Syncfusion Flutter chart'),
+          title: const Text('Redeem History'),
         ),
         body: SfCartesianChart(
-            primaryXAxis: CategoryAxis(),
-            primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
+            primaryXAxis: const DateTimeAxis(),
+            primaryYAxis: NumericAxis(minimum: 0, maximum: max+20, interval: 10),
             tooltipBehavior: _tooltip,
-            series: <CartesianSeries<_ChartData, String>>[
-              ColumnSeries<_ChartData, String>(
+            series: <CartesianSeries<_ChartData, DateTime>>[
+              LineSeries<_ChartData, DateTime>(
+                  width: 10,
+                  selectionBehavior: SelectionBehavior(selectedBorderWidth: 20),
                   dataSource: data,
                   xValueMapper: (_ChartData data, _) => data.x,
                   yValueMapper: (_ChartData data, _) => data.y,
-                  name: 'Gold',
-                  color: Color.fromRGBO(8, 142, 255, 1))
+                  name: 'Point',
+                  color: Colors.purple),
             ]));
   }
 }
@@ -155,6 +242,6 @@ class _MyHomePageState extends State<_MyHomePage> {
 class _ChartData {
   _ChartData(this.x, this.y);
 
-  final String x;
+  final DateTime x;
   final double y;
 }
