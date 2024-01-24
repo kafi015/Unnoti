@@ -4,24 +4,23 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:unnoti/ui/screens/authentication/sign_in_screen.dart';
+import 'package:unnoti/ui/screens/authentication/reset_password_screen.dart';
 
 import '../../../data/services/urls.dart';
 import '../../widgets/app_elevated_button.dart';
 import '../../widgets/app_text_form_field.dart';
 import '../../widgets/screen_background.dart';
 
-class OTPVerficationScreen extends StatefulWidget {
-  const OTPVerficationScreen({Key? key,required this.otp,required this.phoneNumber}) : super(key: key);
+class ResetPasswordForOTPVerification extends StatefulWidget {
+  const ResetPasswordForOTPVerification({Key? key,required this.phoneNumber}) : super(key: key);
 
-  final String otp;
   final String phoneNumber;
 
   @override
-  State<OTPVerficationScreen> createState() => _OTPVerficationScreenState();
+  State<ResetPasswordForOTPVerification> createState() => _ResetPasswordForOTPVerificationState();
 }
 
-class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
+class _ResetPasswordForOTPVerificationState extends State<ResetPasswordForOTPVerification> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -100,13 +99,14 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                               text: 'Confirm',
                               color: const Color(0xFF8359E3),
                               onPressed: () async {
+                               // Get.to(const ResetPassWordScreen());
                                 if (_formKey.currentState!.validate()) {
 
                                   try {
                                     inProgress = true;
                                     setState(() {});
 
-                                    final http.Response response = await http.post(Uri.parse(Urls.verigyOTPUrl),
+                                    final http.Response response = await http.post(Uri.parse(Urls.verifyResetPasswordOtp),
                                         headers: {"Content-Type": "application/json"},
                                         body: jsonEncode({
                                           'phone_number':
@@ -114,11 +114,13 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                                           'otp': otpETController.text
                                         }));
 
-                                    // print(response.statusCode);
+                                     log(response.statusCode.toString());
 
                                     if (response.statusCode == 200) {
                                       log(response.body);
-                                      showAlertDialog(context);
+                                      // showAlertDialog(context);
+                                      Get.to( ResetPassWordScreen(phoneNumber: widget.phoneNumber,));
+
                                     }
                                      else {
                                       log("Something went wrong");
@@ -163,7 +165,7 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-
+                                    Get.back();
                                   },
                                   child: const Text(
                                     'Resent',
@@ -186,33 +188,6 @@ class _OTPVerficationScreenState extends State<OTPVerficationScreen> {
           ),
         ),
       ),
-    );
-  }
-  showAlertDialog(BuildContext context) {
-
-    // set up the button
-    Widget okButton = TextButton(
-      child: const Text("OK"),
-      onPressed: () {
-        Get.offAll(const SignInScreen());
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: const Text("Message"),
-      content: const Text("Registration Complete."),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
     );
   }
 }

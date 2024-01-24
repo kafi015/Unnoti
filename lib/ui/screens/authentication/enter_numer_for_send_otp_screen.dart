@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unnoti/ui/screens/authentication/reset_password_otp_verification.dart';
 
 import '../../../data/services/urls.dart';
 import '../../widgets/app_elevated_button.dart';
@@ -14,11 +15,12 @@ class EnterNumberForSendOTPScreen extends StatefulWidget {
   const EnterNumberForSendOTPScreen({super.key});
 
   @override
-  State<EnterNumberForSendOTPScreen> createState() => _EnterNumberForSendOTPScreenState();
+  State<EnterNumberForSendOTPScreen> createState() =>
+      _EnterNumberForSendOTPScreenState();
 }
 
-class _EnterNumberForSendOTPScreenState extends State<EnterNumberForSendOTPScreen> {
-
+class _EnterNumberForSendOTPScreenState
+    extends State<EnterNumberForSendOTPScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController phoneETController = TextEditingController();
   bool inProgress = false;
@@ -78,7 +80,7 @@ class _EnterNumberForSendOTPScreenState extends State<EnterNumberForSendOTPScree
                             ),
                             AppTextFormField(
                               hintText: 'Enter Phone number',
-                              color:  Colors.grey.shade300,
+                              color: Colors.grey.shade300,
                               controller: phoneETController,
                               keyBoardType: TextInputType.number,
                               validator: (value) {
@@ -91,94 +93,92 @@ class _EnterNumberForSendOTPScreenState extends State<EnterNumberForSendOTPScree
                                 return null;
                               },
                             ),
-                            SizedBox(
-                              height: height * 0.05
-                            ),
-
+                            SizedBox(height: height * 0.05),
                             inProgress
                                 ? const Center(
-                              child: CircularProgressIndicator(
-                                color: Color(0xFF8359E3),
-                              ),
-                            )
+                                    child: CircularProgressIndicator(
+                                      color: Color(0xFF8359E3),
+                                    ),
+                                  )
                                 : AppElevatedButton(
-                              text: 'Send OTP',
-                              color: const Color(0xFF8359E3),
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  try {
-                                    inProgress = true;
-                                    setState(() {});
+                                    text: 'Send OTP',
+                                    color: const Color(0xFF8359E3),
+                                    onPressed: () async {
+                                      //  Get.to(const ResetPasswordForOTPVerification(phoneNumber: '',));
+                                      if (_formKey.currentState!.validate()) {
+                                        try {
+                                          inProgress = true;
+                                          setState(() {});
 
-                                    final http.Response response =
-                                    await http
-                                        .post(
-                                        Uri.parse(Urls.sendResetPasswordOtpUrl),
-                                        headers: {
-                                          "Content-Type":
-                                          "application/json"
-                                        },
-                                        body: jsonEncode({
-                                          'phone_number':
-                                          '+88${phoneETController.text}'
-                                        }));
+                                          final http.Response response =
+                                              await http.post(
+                                                  Uri.parse(Urls
+                                                      .sendResetPasswordOtpUrl),
+                                                  headers: {
+                                                    "Content-Type":
+                                                        "application/json"
+                                                  },
+                                                  body: jsonEncode({
+                                                    'phone_number':
+                                                        '+88${phoneETController.text}'
+                                                  }));
 
-                                    log(response.statusCode.toString());
-                                    log(response.body);
-                                    Map valueMap = jsonDecode(utf8.decode(response.bodyBytes));
-                                    if (response.statusCode == 200) {
-                                    //  Get.to(const EnterNumberForSendOTPScreen());
+                                          log(response.statusCode.toString());
+                                          log(response.body);
+                                          if (response.statusCode == 200) {
+                                            Get.to(
+                                                ResetPasswordForOTPVerification(
+                                              phoneNumber:
+                                                  phoneETController.text,
+                                            ));
+                                          }
+                                          else if (response.statusCode == 404) {
+                                            log("User not found");
+                                            Get.snackbar(
+                                              "Error!",
+                                              "User not Found",
+                                              snackPosition:
+                                              SnackPosition.BOTTOM,
+                                              backgroundColor: Colors.red,
+                                              colorText: Colors.white,
+                                              snackStyle: SnackStyle.FLOATING,
+                                            );
+                                          }
+                                          else {
+                                            log("Something went wrong");
+                                            Get.snackbar(
+                                              "Error!",
+                                              "OTP Send Failed",
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              backgroundColor: Colors.red,
+                                              colorText: Colors.white,
+                                              snackStyle: SnackStyle.FLOATING,
+                                            );
+                                          }
+                                          inProgress = false;
+                                          setState(() {});
+                                        } catch (e) {
+                                          log('Error $e');
+                                        }
                                       }
-                                    else if(response.statusCode == 401)
-                                    {
-                                      log("Account not active");
-                                      Get.snackbar(
-                                        "Message!",
-                                        valueMap['error'],
-                                        snackPosition:
-                                        SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red,
-                                        colorText: Colors.white,
-                                        snackStyle: SnackStyle.FLOATING,
-                                      );
-                                    }
-
-                                    else {
-                                      log("Something went wrong");
-                                      Get.snackbar(
-                                        "Error!",
-                                        "LogIn Failed",
-                                        snackPosition:
-                                        SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red,
-                                        colorText: Colors.white,
-                                        snackStyle: SnackStyle.FLOATING,
-                                      );
-                                    }
-                                    inProgress = false;
-                                    setState(() {});
-                                  } catch (e) {
-                                    log('Error $e');
-                                  }
-                                }
-                              },
-                            ),
+                                    },
+                                  ),
                             SizedBox(
                               height: height * 0.02,
                             ),
-
-                                TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                  child: const Text(
-                                    'back',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
+                            TextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: const Text(
+                                'back',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
                           ],
                         ),
                       ),
