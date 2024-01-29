@@ -1,4 +1,4 @@
-unnoti/lib/data/services/urls.dart
+lib/data/services/urls.dart
 # Miscellaneous
 *.class
 *.log
