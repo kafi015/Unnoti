@@ -1,5 +1,3 @@
-lib/data/services/urls.dart
-*.example.dart
 # Miscellaneous
 *.class
 *.log
