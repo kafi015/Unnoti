@@ -1,4 +1,4 @@
-*.example.dart
+.example.dart
 # Miscellaneous
 *.class
 *.log
