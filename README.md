@@ -19,34 +19,17 @@
     <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/790b04e4-e758-41bc-9283-9dec4848bdac" width="200" /></td>
   </tr>
   <tr>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/350c74eb-260b-477f-bf8f-85eb0429ce40" width="200" /></td>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/e7478976-1ced-421e-b11d-308fa4267e24" width="200" /></td>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/3d3c7114-0ad6-4145-b819-5cf7f9645ca0" width="200" /></td>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/81e74ca3-99e4-4c2f-a762-483085ead47f" width="200" /></td>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/bb06b5fb-f08c-4c0f-908c-b10a4af136e8" width="200" /></td>
+    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/b855f847-89b7-4a6a-9d78-da20169beefb" width="200" /></td>
+    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/e85f912e-f567-433b-8885-61f0992b8d21" width="200" /></td>
+    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/61846787-b5fe-492c-bedd-8d99c20ec4d4" width="200" /></td>
+    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/73b13c61-7ba1-4fed-9c4b-3b2c8d714766" width="200" /></td>
+    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/b9ad8d58-230e-49e2-b090-09d02391883c" width="200" /></td>
   </tr>
   <tr>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/350c74eb-260b-477f-bf8f-85eb0429ce40" width="200" /></td>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/e7478976-1ced-421e-b11d-308fa4267e24" width="200" /></td>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/3d3c7114-0ad6-4145-b819-5cf7f9645ca0" width="200" /></td>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/81e74ca3-99e4-4c2f-a762-483085ead47f" width="200" /></td>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/bb06b5fb-f08c-4c0f-908c-b10a4af136e8" width="200" /></td>
+    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/a577b695-8875-4ecb-bc2e-d8cda712625" width="200" /></td>
+    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/6a35ada5-24a1-40c7-8901-26537da73194" width="200" /></td>
+    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/564a741d-fec8-4672-8bb1-366a0b51e5d3" width="200" /></td>
+    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/058cea9a-0efe-4efc-928e-d46ed86f852f" width="200" /></td>
+  
   </tr>
 </table>
-
-
-
-
-
-![9]()
-![10]()
-![11](https://github.com/kafi015/Unnoti/assets/85091859/b855f847-89b7-4a6a-9d78-da20169beefb)
-![12](https://github.com/kafi015/Unnoti/assets/85091859/e85f912e-f567-433b-8885-61f0992b8d21)
-![13](https://github.com/kafi015/Unnoti/assets/85091859/61846787-b5fe-492c-bedd-8d99c20ec4d4)
-![14](https://github.com/kafi015/Unnoti/assets/85091859/73b13c61-7ba1-4fed-9c4b-3b2c8d714766)
-![15](https://github.com/kafi015/Unnoti/assets/85091859/b9ad8d58-230e-49e2-b090-09d02391883c)
-![16](https://github.com/kafi015/Unnoti/assets/85091859/a577b695-8875-4ecb-bc2e-d8cda7126257)
-![17](https://github.com/kafi015/Unnoti/assets/85091859/6a35ada5-24a1-40c7-8901-26537da73194)
-![drawer](https://github.com/kafi015/Unnoti/assets/85091859/564a741d-fec8-4672-8bb1-366a0b51e5d3)
-![home](https://github.com/kafi015/Unnoti/assets/85091859/ee65a4a2-1fa6-4104-af68-35ba68ea661c)
-![2](https://github.com/kafi015/Unnoti/assets/85091859/058cea9a-0efe-4efc-928e-d46ed86f852f)
