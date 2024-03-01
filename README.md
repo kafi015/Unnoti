@@ -26,7 +26,6 @@
     <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/b9ad8d58-230e-49e2-b090-09d02391883c" width="200" /></td>
   </tr>
   <tr>
-    <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/a577b695-8875-4ecb-bc2e-d8cda712625" width="200" /></td>
     <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/6a35ada5-24a1-40c7-8901-26537da73194" width="200" /></td>
     <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/564a741d-fec8-4672-8bb1-366a0b51e5d3" width="200" /></td>
     <td align="center"><img src="https://github.com/kafi015/Unnoti/assets/85091859/058cea9a-0efe-4efc-928e-d46ed86f852f" width="200" /></td>
